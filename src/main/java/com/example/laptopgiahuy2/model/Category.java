@@ -17,8 +17,8 @@ import lombok.Setter;
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private String name;
+    private int DanhMucId;
+    private String tendanhmuc;
     private String imageName;
-    private boolean isActive;
+    private Boolean isActive;
 }

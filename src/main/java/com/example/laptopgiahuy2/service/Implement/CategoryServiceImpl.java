@@ -5,6 +5,7 @@ import com.example.laptopgiahuy2.model.Category;
 import com.example.laptopgiahuy2.repository.CategoryRepository;
 import com.example.laptopgiahuy2.service.CategoryService;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import java.util.List;
 @Service
@@ -28,6 +29,24 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Boolean existCategory(String categoryName) {
-        return categoryRepository.existsCategoryByName(categoryName);
+        return categoryRepository.existsCategoryByTendanhmuc(categoryName);
+    }
+
+    @Override
+    public Boolean deleteCategory(int categoryId) {
+        Category category= categoryRepository.findById(categoryId).orElse(null);
+        if (!ObjectUtils.isEmpty(category))
+        {
+            categoryRepository.delete(category);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public Category getCategory(int id) {
+        Category category = categoryRepository.findById(id).orElse(null);
+
+        return category;
     }
 }

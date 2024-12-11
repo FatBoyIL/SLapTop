@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{base::layout(~{::section})}">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<section>
+		<div class="container-fluid mt-4 p-3">
+			<div class="row">
+				<p class="text-center fs-3 mt-2">All Products</p>
+				<th:block th:if="${session.succMsg}">
+					<p class="text-success fw-bold">[[${session.succMsg}]]</p>
+					<th:block th:text="${@commnServiceImpl.removeSessionMessage()}"></th:block>
+				</th:block>
+
+				<th:block th:if="${session.errorMsg}">
+					<p class="text-danger fw-bold">[[${session.errorMsg}]]</p>
+					<th:block th:text="${@commnServiceImpl.removeSessionMessage()}"></th:block>
+				</th:block>
+				<hr>
+				<a href="/admin/" class="text-decoration-none"><i
+					class="fa-solid fa-arrow-left"></i> Back</a>
+				<div class="col-md-4 p-3">
+
+					<form action="/admin/products" method="get">
+						<div class="row">
+							<div class="col">
+								<input type="text" class="form-control " name="ch">
+							</div>
+							<div class="col">
+								<button class="btn btn-primary col">Tim Kiem</button>
+							</div>
+						</div>
+					</form>
+
+				</div>
+
+
+				<!-- <div class="card card-sh">-->
+				<div class="p-3">
+					<table class="table table-bordered">
+						<thead class="table-light ">
+							<tr>
+								<th scope="col">Sl No</th>
+								<th scope="col">Hinh Anh</th>
+								<th scope="col">Ten San Pham</th>
+								<th scope="col">Danh Muc</th>
+								<th scope="col">Gia</th>
+								<th scope="col">Mo ta</th>
+								<th scope="col">Cau Hinh</th>
+								<th scope="col">Bao Hanh</th>
+								<th scope="col">So luong</th>
+								<th scope="col">Trang Thai</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="p,c:${products}">
+								<th scope="row">[[${c.count}]]</th>
+								<td><img th:src="@{'/img/product_img/'+${p.hinhanh}}"
+									width="70px" height="70px"></td>
+								<td th:text="${p.tensanpham}">
+								</td>
+								<td th:text="${p.danhMuc}">
+								</td>
+								<td th:text="${p.gia}">
+								</td>
+								<td th:text="${p.mota}">
+								</td>
+								<td th:text="${p.cauhinh}">
+								</td>
+								<td th:text="${p.baohanh}">
+								</td>
+								<td th:text="${p.soluong}">
+								</td>
+								<td th:text="${p.trangthai == true} ? 'SAN SANG' : 'CHUA SAN SANG'">
+								</td>
+
+
+								<td><a th:href="@{'/admin/editProduct/'+${p.productId}}"
+									class="btn btn-sm btn-primary"><i
+										class="fa-solid fa-pen-to-square"></i>Edit</a> <a
+									th:href="@{'/admin/deleteProduct/'+${p.productId}}"
+									class="btn btn-sm btn-danger"><i class="fa-solid fa-trash"></i>
+										Delete</a></td>
+							</tr>
+
+						</tbody>
+					</table>
+
+				</div>
+			</div>
+		</div>
+		<!-- 	</div> -->
+	</section>
+</body>
+</html>
