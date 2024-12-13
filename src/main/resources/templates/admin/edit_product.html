@@ -12,7 +12,7 @@
 				<div class="col-md-8 offset-md-2">
 					<div class="card card-sh">
 						<div class="card-header text-center ">
-							<p class="fs-4">Edit Product</p>
+							<p class="fs-4">Sua san pham</p>
 
 							<th:block th:if="${session.succMsg}">
 								<p class="text-success fw-bold">[[${session.succMsg}]]</p>
@@ -28,39 +28,41 @@
 						<div class="card-body">
 							<form action="/admin/updateProduct" method="post"
 								enctype="multipart/form-data">
-								<input type="hidden" name="id" th:value="${product.id}">
+								<input type="hidden" name="productId" th:value="${product.productId}">
 								<div class="mb-3">
-									<label>Enter Title</label> <input type="text" name="title"
-										th:value="${product.title}" class="form-control">
+									<label>Ten San Pham</label> <input type="text" name="tensanpham"
+										th:value="${product.tensanpham}" class="form-control">
 								</div>
 
 								<div class="mb-3">
-									<label>Enter Description</label>
+									<label>Mo ta</label>
 									<textarea rows="3" cols="" class="form-control"
-										name="description">[[${product.description}]]</textarea>
+										name="mota" th:text="${product.mota}"></textarea>
+								</div>
+								<div class="mb-3">
+									<label>Cau hinh</label>
+									<textarea rows="3" cols="" class="form-control"
+											  name="cauhinh" th:text="${product.cauhinh}"></textarea>
 								</div>
 								<div class="row">
 									<div class="mb-3 col">
-										<label>Category</label> <select class="form-control"
-											name="category">
-											<option>[[${product.category}]]</option>
-											<option th:each="c:${categories}">[[${c.name}]]</option>
+										<label>Danh Muc</label> <select class="form-control"
+											name="DanhMuc">
+										<option>[[${product.danhMuc}]]</option>
+										<option th:each="c:${category}" >${c.tendanhmuc}"</option>
 										</select>
 									</div>
 									<div class="mb-3 col">
-										<label>Enter Price</label> <input type="number" name="price"
-											th:value="${product.price}" class="form-control">
-									</div>
-								</div>
-
-								<div class="row">
-									<div class="mb-3 col">
-										<label>Discount</label> <input type="number" name="discount"
-											th:value="${product.discount}" class="form-control">
+										<label>Gia</label> <input type="number" name="gia"
+											th:value="${product.gia}" class="form-control">
 									</div>
 									<div class="mb-3 col">
-										<label>Discount Price</label> <input type="number" readonly
-											th:value="${product.discountPrice}" class="form-control">
+										<label>% Giam</label> <input type="number" name="sale"
+																		  th:value="${product.sale}" class="form-control">
+									</div>
+									<div class="mb-3 col">
+										<label>Gia Da Giam</label> <input type="number" name="giaSale" readonly
+																		  th:value="${product.giaSale}" class="form-control">
 									</div>
 								</div>
 
@@ -68,16 +70,16 @@
 									<label>Status</label>
 
 									<div class="form-check">
-										<input class="form-check-input" type="radio" th:checked="${product.isActive==true}"
-											value="true" name="isActive" id="flexRadioDefault1">
+										<input class="form-check-input" type="radio" th:checked="${product.trangthai==true}"
+											value="true" name="trangthai" id="flexRadioDefault1">
 										<label class="form-check-label" for="flexRadioDefault1">
-											Active </label>
+											HOAT DONG </label>
 									</div>
 									<div class="form-check">
-										<input class="form-check-input" type="radio" name="isActive" th:checked="${product.isActive==false}"
+										<input class="form-check-input" type="radio" name="trangthai" th:checked="${product.trangthai==false}"
 											value="false" id="flexRadioDefault2"> <label
 											class="form-check-label" for="flexRadioDefault2">
-											Inactive </label>
+											KHONG HOAT DONG </label>
 									</div>
 
 								</div>
@@ -85,8 +87,8 @@
 								<div class="row">
 
 									<div class="mb-3 col">
-										<label>Enter Stock</label> <input type="text" name="stock"
-											th:value="${product.stock}" class="form-control">
+										<label>Enter Stock</label> <input type="text" name="soluong"
+											th:value="${product.soluong}" class="form-control">
 									</div>
 
 									<div class="mb-3 col">
@@ -95,7 +97,7 @@
 									</div>
 
 									<div class="mt-1">
-										<img th:src="@{'/img/product_img/'+${product.image}}"
+										<img th:src="@{'/img/product_img/'+${product.hinhanh}}"
 											width="100px" height="100px">
 									</div>
 

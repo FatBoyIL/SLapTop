@@ -22,7 +22,7 @@
 <nav class="navbar navbar-expand-lg  bg-primary fixed-top navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="#"><i
-                class="fa-solid fa-cart-shopping"></i> Ecom Store</a>
+                class="fa-solid fa-cart-shopping"></i> LapTop Huy Beo</a>
         <button class="navbar-toggler" type="button"
                 data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -33,13 +33,13 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
                 <li class="nav-item"><a class="nav-link active"
-                                        aria-current="page" href="/">Home</a></li>
+                                        aria-current="page" href="/">Trang Chu</a></li>
                 <li class="nav-item"><a class="nav-link active"
-                                        aria-current="page" href="/products">Product</a></li>
+                                        aria-current="page" href="/products">San Pham</a></li>
 
                 <li class="nav-item dropdown"><a
                         class="nav-link dropdown-toggle" href="#" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false"> Category </a>
+                        data-bs-toggle="dropdown" aria-expanded="false">Danh Muc</a>
                     <ul class="dropdown-menu">
                         <li th:each="c:${categorys}"><a class="dropdown-item"
                                                         th:href="@{'/products?category='+${c.name}}">[[${c.name}]]</a></li>

@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
 	th:replace="~{base::layout(~{::section})}">
 <head>
-<meta charset="ISO-8859-1">
+<meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
@@ -14,21 +14,21 @@
 				<div class="row">
 
 					<div class="col-md-6 text-end">
-						<img alt="" src="/img/product_img/laptop.jpg" width="300px"
+						<img th:src="@{'/img/product_img/'+${product.hinhanh}}" width="300px"
 							height="250px">
 					</div>
 
 					<div class="col-md-6">
-						<p class="fs-3">Laptop</p>
+						<p class="fs-3">[[${product.tensanpham}]]</p>
 						<p>
-							<span class="fw-bold">Description:</span><br>Hp Laptop, 256GB SSD
+							<span class="fw-bold">Description: </span><br>[[${product.mota}]]
 						</p>
 						<p>
-							<span class="fw-bold">Product Details:</span><br>Status:
-							<span class="badge bg-success">Available</span>
-							<span class="badge bg-warning">out of stock</span><br>
-							Category: Laptop<br>
-							Policy: 7 Days Replacement & Return
+							<span class="fw-bold">Chi tiết sản phẩm:</span><br>Trạng Thái:
+							<span class="badge bg-success" th:if="${product.trangthai==true}">Còn Hàng</span>
+							<span class="badge bg-warning" th:unless="${product.trangthai==false}">Hết Hàng</span><br>
+							Danh Mục: [[${product.danhMuc}]]<br>
+							7 ngày đổi trả
 						</p>
 						<p class="fs-5 fw-bold">
 							Price : &nbsp;&nbsp;&nbsp;&nbsp;<i class="fas fa-rupee-sign"></i>

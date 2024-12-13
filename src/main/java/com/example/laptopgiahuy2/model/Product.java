@@ -20,14 +20,16 @@ import java.util.Set;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int ProductId;
+    private int productId;
     private String tensanpham;
     private int soluong;
     private String hinhanh;
-    private Double gia;
+    private int gia;
     private String mota;
     private String cauhinh;
-    private Boolean trangthai;
     private int baohanh;
-    private String DanhMuc;
+    private String danhMuc;
+    private int sale;
+    private int giaSale;
+    private Boolean trangthai;
 }

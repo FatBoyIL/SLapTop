@@ -27,10 +27,10 @@
 						<div class="card-body">
 							<form action="/admin/updateCategory" method="post"
 								enctype="multipart/form-data">
-								<input type="hidden" name="id" th:value="${category.id}">
+								<input type="hidden" name="danhMucId" th:value="${category.danhMucId}">
 								<div class="mb-3">
-									<label>Enter Category</label> <input type="text" name="name"
-										th:value="${category.name}" class="form-control">
+									<label>Enter Category</label> <input type="text" name="tendanhmuc"
+										th:value="${category.tendanhmuc}" class="form-control">
 								</div>
 
 								<div class="mb-3">
@@ -38,17 +38,17 @@
 
 									<div class="form-check">
 										<input class="form-check-input" type="radio"
-											th:checked="${category.isActive==true}" value="true"
-											name="isActive" id="flexRadioDefault1"> <label
+											th:checked="${category.trangThai==true}" value="true"
+											name="trangThai" id="flexRadioDefault1"> <label
 											class="form-check-label" for="flexRadioDefault1">
-											Active </label>
+											HOAT DONG </label>
 									</div>
 									<div class="form-check">
-										<input class="form-check-input" type="radio" name="isActive"
-											th:checked="${category.isActive==false}" value="false"
+										<input class="form-check-input" type="radio" name="trangThai"
+											th:checked="${category.trangThai==false}" value="false"
 											id="flexRadioDefault2"> <label
 											class="form-check-label" for="flexRadioDefault2">
-											Inactive </label>
+											KHONG HOAT DONG </label>
 									</div>
 
 								</div>

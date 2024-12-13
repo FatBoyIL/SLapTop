@@ -45,7 +45,10 @@
 								<div class="mb-3">
 									<label>Danh Muc</label> <select class="form-control"
 										name="DanhMuc">
-										<option>--select--</option>
+									<option>--chon--</option>
+									<option th:each="c:${category}">
+										[[${c.tendanhmuc}]]
+									</option>
 
 									</select>
 								</div>

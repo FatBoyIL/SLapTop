@@ -28,7 +28,7 @@
 							<form action="/admin/saveCategory" method="post"
 								enctype="multipart/form-data">
 								<div class="mb-3">
-									<label>Enter Category</label> <input type="text" name="name"
+									<label>Enter Category</label> <input type="text" name="tendanhmuc"
 										class="form-control">
 								</div>
 
@@ -36,12 +36,12 @@
 									<label>Status</label>
 									<div class="form-check">
 										<input class="form-check-input" type="radio" checked
-											   value="true" name="isActive" id="flexRadioDefault1">
+											   value="true" name="trangThai" id="flexRadioDefault1">
 										<label class="form-check-label" for="flexRadioDefault1">
 											Hoat Dong </label>
 									</div>
 									<div class="form-check">
-										<input class="form-check-input" type="radio" name="isActive"
+										<input class="form-check-input" type="radio" name="trangThai"
 											   value="false" id="flexRadioDefault2"> <label
 											class="form-check-label" for="flexRadioDefault2">
 										Khong Hoat Dong </label>
@@ -69,24 +69,24 @@
 								<thead>
 									<tr>
 										<th scope="col">Sl No</th>
-										<th scope="col">Category</th>
-										<th scope="col">Status</th>
-										<th scope="col">Image</th>
+										<th scope="col">Danh Muc</th>
+										<th scope="col">Trang Thai</th>
+										<th scope="col">Hinh Anh</th>
 										<th scope="col">Action</th>
 									</tr>
 								</thead>
 								<tbody>
 								<tr th:each="cat,c:${categories}">
 									<th scope="row">[[${c.count}]]</th>
-									<td>[[${cat.name}]]</td>
-									<td th:text="${cat.isActive == true} ? 'HOAT DONG' : 'KHONG HOAT DONG'" />
+									<td th:text="${cat.tendanhmuc}"></td>
+									<td th:text="${cat.trangThai == true} ? 'HOAT DONG' : 'KHONG HOAT DONG'" />
 									<td><img
 											th:src="@{'/img/category_img/'+${cat.imageName}}"
 											width="50px" height="50px"></td>
-									<td><a th:href="@{'/admin/loadEditCategory/'+${cat.id}}"
+									<td><a th:href="@{'/admin/loadEditCategory/'+${cat.getDanhMucId()}}"
 										   class="btn btn-primary btn-sm"><i
 											class="fa-solid fa-pen-to-square  fa-1x"></i> Edit </a> <a
-											th:href="@{'/admin/deleteCategory/'+${cat.id}}"
+											th:href="@{'/admin/deleteCategory/'+${cat.getDanhMucId()}}"
 											class="btn btn-danger btn-sm"><i
 											class="fa-solid fa-trash  fa-1x"></i> Delete</a></td>
 								</tr>

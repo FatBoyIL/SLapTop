@@ -95,7 +95,7 @@ public class AdminController {
 
         if (!ObjectUtils.isEmpty(category)) {
             oldCategory.setTendanhmuc(category.getTendanhmuc());
-            oldCategory.setIsActive(category.getIsActive());
+            oldCategory.setTrangThai(category.getTrangThai());
             oldCategory.setImageName(imageName);
         }
 
@@ -131,6 +131,8 @@ public class AdminController {
     public String saveProduct(@ModelAttribute Product product, HttpSession session,@RequestParam("file") MultipartFile image) throws IOException {
         String imageName= image.isEmpty() ? "default.jpg" : image.getOriginalFilename();
         product.setHinhanh(imageName);
+        product.setSale(0);
+        product.setGiaSale(product.getGia());
         Product savedProduct = productService.saveProduct(product);
         if (!ObjectUtils.isEmpty(savedProduct)) {
             File saveFile = new ClassPathResource("static/img").getFile();
@@ -145,7 +147,7 @@ public class AdminController {
         else {
             session.setAttribute("errorMsg", "Khong luu duoc san pham");
         }
-        return "redirect:/admin/loadAddProduct";
+        return "redirect:/admin/products";
     }
 
     @GetMapping("/products")
@@ -165,5 +167,28 @@ public class AdminController {
         }
         return "redirect:/admin/products";
     }
+    @GetMapping("/editProduct/{id}")
+    public String loadEditProduct(@PathVariable("id") Integer id, Model model) {
+        Product product = productService.getProductById(id);
+        List<Category> category = categoryService.getAllCategories();
+        model.addAttribute("product", product);
+        model.addAttribute("category", category);
+        return "admin/edit_product";
+    }
+    @PostMapping("/updateProduct")
+    public String updateProduct(@ModelAttribute Product product,@RequestParam("file") MultipartFile image,HttpSession session) {
+        if (product.getSale()<0 || product.getSale()>90){
+            session.setAttribute("errorMsg", "Ma giam gia loi");
+        }else {
+            Product savedProduct = productService.updateProduct(product, image);
+            if (!ObjectUtils.isEmpty(savedProduct)) {
+                session.setAttribute("succMsg", "Sua san pham thanh cong");
+            }
+            else {
+                session.setAttribute("errorMsg", "Khong sua duoc");
+            }
 
+        }
+        return "redirect:/admin/products";
+    }
 }

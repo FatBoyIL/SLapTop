@@ -20,5 +20,5 @@ public class Category {
     private int DanhMucId;
     private String tendanhmuc;
     private String imageName;
-    private Boolean isActive;
+    private Boolean trangThai;
 }

@@ -4,6 +4,7 @@
 <head>
     <meta charset="ISO-8859-1">
     <title>Insert title here</title>
+
 </head>
 <body>
 <section>
@@ -33,10 +34,11 @@
                 <div class="card shadow-sm p-0 mb-5 bg-body-tertiary rounded">
                     <div class="card-body">
                         <div class="list-group">
-                            <a href="#" class="list-group-item list-group-item-action active" aria-current="true">Categories</a>
-                            <a href="#" class="list-group-item list-group-item-action">Electronics</a>
-                            <a href="#" class="list-group-item list-group-item-action">Mobile Phone</a>
-                            <a href="#" class="list-group-item list-group-item-action">Clothers</a>
+                            <a href="/products" class="list-group-item list-group-item-action active" aria-current="true">Danh Muc</a>
+                            <a  th:each="c:${categories}" class="list-group-item list-group-item-action" th:href="@{'/products?category='+${c.tendanhmuc}}">
+                                [[${c.tendanhmuc}]]
+                            </a>
+
                         </div>
                     </div>
                 </div>
@@ -44,65 +46,36 @@
             <div class="col-md-10">
                 <div class="card">
                     <div class="card-body">
-                        <p class="fs-3 text-center">Products</p>
+                        <p class="fs-3 text-center">San Pham</p>
                         <div class="row">
 
-                            <div class="col-md-3">
+                            <div class="col-md-3"  th:each="p,c:${products}">
                                 <div class="card">
-                                    <div class="card-body">
-                                        <img alt="" src="/img/product_img/laptop.jpg" width="100%" height="150px">
-                                        <p class="fs-5 text-center">Laptop</p>
-                                        <div class="row text-center">
-                                            <p class="fs-6 fw-bold">
-                                                &#8377; 500 <span class="fs-6 text-success">20% off</span>
-                                            </p>
-                                            <a class="btn btn-primary col-md-6 offset-md-3" href="#">View Details</a>
+                                    <button type="button" class="btn btn-warning" style="width: fit-content">[[${p.sale}]]%</button>
+                                    <div class="card-body" style="text-align: center">
+                                        <div><img th:src="@{'/img/product_img/'+${p.hinhanh}}"
+                                                 width="70px" height="70px"></div>
+                                        <div>
+                                            [[${p.tensanpham}]]
                                         </div>
+                                        <div>
+                                            [[${p.cauhinh}]]
+                                        </div>
+                                        <div>
+                                           Bao Hanh: [[${p.baohanh}]] nam
+                                        </div>
+                                        <div class="row text-center">
+                                                <div class="">[[${p.giaSale}]] VND</div>
+                                                <div class="text-decoration-line-through">[[${p.gia}]]VND</div>
+
+                                            <a class="btn btn-primary col-md-6 offset-md-3" th:href="@{'/product/'+${p.productId}}">Chi Tiet</a>
+                                        </div>
+
+
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-3">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <img alt="" src="/img/product_img/laptop.jpg" width="100%" height="150px">
-                                        <p class="fs-5 text-center">Laptop</p>
-                                        <div class="row text-center">
-                                            <p class="fs-6 fw-bold">
-                                                &#8377; 500 <span class="fs-6 text-success">20% off</span>
-                                            </p>
-                                            <a class="btn btn-primary col-md-6 offset-md-3" href="#">View Details</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <img alt="" src="/img/product_img/laptop.jpg" width="100%" height="150px">
-                                        <p class="fs-5 text-center">Laptop</p>
-                                        <div class="row text-center">
-                                            <p class="fs-6 fw-bold">
-                                                &#8377; 500 <span class="fs-6 text-success">20% off</span>
-                                            </p>
-                                            <a class="btn btn-primary col-md-6 offset-md-3" href="#">View Details</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <img alt="" src="/img/product_img/laptop.jpg" width="100%" height="150px">
-                                        <p class="fs-5 text-center">Laptop</p>
-                                        <div class="row text-center">
-                                            <p class="fs-6 fw-bold">
-                                                &#8377; 500 <span class="fs-6 text-success">20% off</span>
-                                            </p>
-                                            <a class="btn btn-primary col-md-6 offset-md-3" href="#">View Details</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
                         </div>
 
                     </div>

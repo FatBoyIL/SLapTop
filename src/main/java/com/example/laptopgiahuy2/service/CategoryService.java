@@ -11,6 +11,6 @@ public interface CategoryService {
     public Boolean existCategory(String categoryName);
     public Boolean deleteCategory(int id);
     public Category getCategory(int id);
-
+    public List<Category>getCategoryByTrangThai();
 
 }

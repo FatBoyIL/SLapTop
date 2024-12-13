@@ -49,4 +49,12 @@ public class CategoryServiceImpl implements CategoryService {
 
         return category;
     }
+
+    @Override
+    public List<Category> getCategoryByTrangThai() {
+        List<Category> categoryList = categoryRepository.findCategoryByTrangThaiTrue();
+        return categoryList;
+    }
+
+
 }
