@@ -14,35 +14,36 @@
 				<div class="row">
 
 					<div class="col-md-6 text-end">
-						<img th:src="@{'/img/product_img/'+${product.hinhanh}}" width="300px"
-							height="250px">
+						<img th:src="@{'/img/product_img/'+${product.hinhanh}}" width="600px"
+							height="450px">
 					</div>
 
 					<div class="col-md-6">
 						<p class="fs-3">[[${product.tensanpham}]]</p>
 						<p>
-							<span class="fw-bold">Description: </span><br>[[${product.mota}]]
+							<span class="fw-bold">Mô tả: </span><br>[[${product.mota}]]
 						</p>
 						<p>
 							<span class="fw-bold">Chi tiết sản phẩm:</span><br>Trạng Thái:
-							<span class="badge bg-success" th:if="${product.trangthai==true}">Còn Hàng</span>
-							<span class="badge bg-warning" th:unless="${product.trangthai==false}">Hết Hàng</span><br>
+							<span class="badge bg-success" th:if="${product.trangthai==true}">Sẵn Sàng</span><br>
 							Danh Mục: [[${product.danhMuc}]]<br>
 							7 ngày đổi trả
+							<h4>Cấu Hình</h4>
 						</p>
+						<p th:text="${product.cauhinh}"></p>
 						<p class="fs-5 fw-bold">
-							Price : &nbsp;&nbsp;&nbsp;&nbsp;<i class="fas fa-rupee-sign"></i>
-							7000 <span class="fs-6 text-decoration-line-through text-secondary">14000</span>
-							<span class="fs-6 text-success">50% off</span>
+							Giá : &nbsp;&nbsp;
+							[[${product.giaSale}]] VND<br><span class="fs-6 text-decoration-line-through text-secondary">[[${product.gia}]] </span>
+							<span class="fs-6 text-success">[[${product.sale}]]% </span>
 						</p>
 						<div class="row">
 							<div class="col-md-4 text-success text-center p-2">
 								<i class="fas fa-money-bill-wave fa-2x"></i>
-								<p>Cash On Delivery</p>
+								<p>Thanh Toán Tiền Mặt</p>
 							</div>
 							<div class="col-md-4 text-danger text-center p-2">
 								<i class="fas fa-undo-alt fa-2x"></i>
-								<p>Return Available</p>
+								<p>Trả Hàng</p>
 							</div>
 							<div class="col-md-4 text-primary text-center p-2">
 								<i class="fas fa-truck-moving fa-2x"></i>

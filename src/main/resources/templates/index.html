@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       th:replace="~{base::layout(~{::section})}">
 <head>
-    <meta charset="ISO-8859-1">
+    <meta charset="UTF-8">
     <title>Insert title here</title>
 
 </head>
@@ -10,14 +10,14 @@
 <section>
     <!-- Start Slider  -->
 
-    <div id="carouselExample" class="carousel slide">
+    <div id="carouselExample" class="carousel slide" style="margin-top: 3%;width: 80%;margin-left: 50%;transform: translateX(-50%)">
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img src="img/ecom1.png" class="d-block w-100" alt="..."
+                <img src="img/ecom1.jpg" class="d-block w-100" alt="..."
                      height="350px">
             </div>
             <div class="carousel-item">
-                <img src="img/ecom3.jpg" class="d-block w-100" alt="..."
+                <img src="img/ecom3.png" class="d-block w-100" alt="..."
                      height="350px">
             </div>
             <div class="carousel-item">
@@ -41,9 +41,8 @@
 
     <!--< Start Category Module -->
     <div class="container">
-        <div class="row">
-            <p class="text-center fs-4">Category</p>
-
+        <div class="row" style="display:flex; justify-content: center">
+            <p class="text-center fs-4">Danh Mục</p>
             <div class="col-md-2">
                 <div
                         class="card rounded-circle shadow-sm p-3 mb-5 bg-body-tertiary rounded ">
@@ -97,7 +96,21 @@
         </div>
     </div>
     <!-- End Category Module -->
+    <div style="display: flex;justify-content: center;padding-top:10px ">
+        <img th:src="@{/img/logo/acer.png}">
+        <img th:src="@{/img/logo/asus.png}">
+        <img th:src="@{/img/logo/Dell.png}">
+        <img th:src="@{/img/logo/hp.png}">
 
+    </div>
+
+    <div style="display: flex;justify-content: center">
+        <img th:src="@{/img/logo/intel.png}">
+        <img th:src="@{/img/logo/lenovo.png}">
+        <img th:src="@{/img/logo/macbook.png}">
+        <img th:src="@{/img/logo/msi.png}">
+
+    </div>
     <!-- Start Latest Product Module -->
 
     <div class="container-fluid bg-light p-3">

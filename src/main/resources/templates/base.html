@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       th:fragment="layout(content)">
 <head>
-    <meta charset="ISO-8859-1">
+    <meta charset="UTF-8">
     <title>Insert title here</title>
     <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
@@ -33,27 +33,23 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
                 <li class="nav-item"><a class="nav-link active"
-                                        aria-current="page" href="/">Trang Chu</a></li>
+                                        aria-current="page" href="/">Trang Chủ</a></li>
                 <li class="nav-item"><a class="nav-link active"
-                                        aria-current="page" href="/products">San Pham</a></li>
+                                        aria-current="page" href="/products">Sản Phẩm</a></li>
 
                 <li class="nav-item dropdown"><a
                         class="nav-link dropdown-toggle" href="#" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false">Danh Muc</a>
-                    <ul class="dropdown-menu">
-                        <li th:each="c:${categorys}"><a class="dropdown-item"
-                                                        th:href="@{'/products?category='+${c.name}}">[[${c.name}]]</a></li>
-
-                    </ul></li>
+                </li>
 
             </ul>
 
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li class="nav-item"><a class="nav-link active"
                                         aria-current="page" href="/signin"><i
-                        class="fa-solid fa-right-to-bracket"></i> LOGIN</a></li>
+                        class="fa-solid fa-right-to-bracket"></i> Đăng Nhập</a></li>
                 <li class="nav-item"><a class="nav-link active"
-                                        aria-current="page" href="/register">REGISTER</a></li>
+                                        aria-current="page" href="/register">Đăng Ký</a></li>
                 <li class="nav-item"><a class="nav-link active"
                                         aria-current="page" href="/register">ADMIN</a></li>
 

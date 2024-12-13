@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       th:replace="~{base::layout(~{::section})}">
 <head>
-    <meta charset="ISO-8859-1">
+    <meta charset="UTF-8">
     <title>Insert title here</title>
 
 </head>
@@ -16,7 +16,7 @@
                     <div class="input-group">
                         <input type="text" class="form-control" name="ch">
                         <button class="btn btn-light text-dark ms-3 col-md-2">
-                            <i class="fa-solid fa-magnifying-glass"></i> Search
+                            <i class="fa-solid fa-magnifying-glass"></i> Tìm
                         </button>
                     </div>
                 </form>
@@ -34,7 +34,7 @@
                 <div class="card shadow-sm p-0 mb-5 bg-body-tertiary rounded">
                     <div class="card-body">
                         <div class="list-group">
-                            <a href="/products" class="list-group-item list-group-item-action active" aria-current="true">Danh Muc</a>
+                            <a href="/products" class="list-group-item list-group-item-action active" aria-current="true">Danh Mục</a>
                             <a  th:each="c:${categories}" class="list-group-item list-group-item-action" th:href="@{'/products?category='+${c.tendanhmuc}}">
                                 [[${c.tendanhmuc}]]
                             </a>
@@ -46,9 +46,9 @@
             <div class="col-md-10">
                 <div class="card">
                     <div class="card-body">
-                        <p class="fs-3 text-center">San Pham</p>
+                        <p class="fs-3 text-center">Sản phẩm</p>
                         <div class="row">
-
+                        <th:block th:if="${products.size}">
                             <div class="col-md-3"  th:each="p,c:${products}">
                                 <div class="card">
                                     <button type="button" class="btn btn-warning" style="width: fit-content">[[${p.sale}]]%</button>
@@ -70,12 +70,13 @@
 
                                             <a class="btn btn-primary col-md-6 offset-md-3" th:href="@{'/product/'+${p.productId}}">Chi Tiet</a>
                                         </div>
-
-
                                     </div>
                                 </div>
                             </div>
-
+                        </th:block>
+                            <th:block th:unless="${products.size>0}">
+                                <p class="fs-4 text-center mt-4 text-danger">Sản phẩm tạm hết</p>
+                            </th:block>
                         </div>
 
                     </div>

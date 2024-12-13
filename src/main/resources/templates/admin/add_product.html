@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
 	th:replace="~{base::layout(~{::section})}">
 <head>
-<meta charset="ISO-8859-1">
+<meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
@@ -12,38 +12,38 @@
 				<div class="col-md-6 offset-md-3">
 					<div class="card card-sh">
 						<div class="card-header text-center ">
-							<p class="fs-4">Add Product</p>
+							<p class="fs-4">Thêm sản phẩm</p>
 
 						</div>
 						<div class="card-body">
 							<form action="/admin/saveProduct" method="post"
 								enctype="multipart/form-data">
 								<div class="mb-3">
-									<label>Nhap ten san pham</label> <input type="text" name="tensanpham"
+									<label>Nhập Tên Sản Phẩm </label> <input type="text" name="tensanpham"
 										class="form-control">
 								</div>
 								<div class="mb-3">
-									<label>Nhap so luong</label> <input type="number" name="soluong"
+									<label>Nhập Số Lượng </label> <input type="number" name="soluong"
 																	  class="form-control">
 								</div>
 
 								<div class="mb-3">
-									<label>Gia Tien</label> <input type="number" name="gia"
+									<label>Giá Tiền</label> <input type="number" name="gia"
 																	  class="form-control">
 								</div>
 								<div class="mb-3">
-									<label>Nhap mo ta</label>
+									<label>Nhập mô tả </label>
 									<textarea rows="3" cols="" class="form-control"
 										name="mota"></textarea>
 								</div>
 								<div class="mb-3">
-									<label>Nhap cau hinh</label>
+									<label>Nhập cấu hình</label>
 									<textarea rows="3" cols="" class="form-control"
 											  name="cauhinh"></textarea>
 								</div>
 
 								<div class="mb-3">
-									<label>Danh Muc</label> <select class="form-control"
+									<label>Danh Mục</label> <select class="form-control"
 										name="DanhMuc">
 									<option>--chon--</option>
 									<option th:each="c:${category}">
@@ -55,35 +55,35 @@
 
 
 								<div class="mb-3">
-									<label>Trang Thai</label>
+									<label>Trạng Thái </label>
 
 									<div class="form-check">
 										<input class="form-check-input" type="radio" checked
 											value="true" name="trangthai" id="flexRadioDefault1">
 										<label class="form-check-label" for="flexRadioDefault1">
-											San Sang </label>
+											Sẵn Sàng</label>
 									</div>
 									<div class="form-check">
 										<input class="form-check-input" type="radio" name="trangthai"
 											value="false" id="flexRadioDefault2"> <label
 											class="form-check-label" for="flexRadioDefault2">
-											Khong san sang </label>
+											Chưa Sẳn Sàng </label>
 									</div>
 
 								</div>
 								<div class="row">
 
 									<div class="mb-3 col">
-										<label>So Nam Bao Hanh</label> <input type="number" name="baohanh"
+										<label>Số Năm Bảo Hành </label> <input type="number" name="baohanh"
 											class="form-control">
 									</div>
 
 									<div class="mb-3 col">
-										<label>Them Anh</label> <input type="file" name="file"
+										<label>Thêm Ảnh</label> <input type="file" name="file"
 											class="form-control">
 									</div>
 								</div>
-								<button class="btn btn-primary col-md-12">Submit</button>
+								<button class="btn btn-primary col-md-12">Thêm Sản Phẩm</button>
 							</form>
 						</div>
 					</div>
