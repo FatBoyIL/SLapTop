@@ -90,6 +90,22 @@ public class UserDtlsServiceImpl implements UserDtlsService {
     public void resetAttempts(int userId) {
 
     }
+    @Override
+    public void updateUserResetToken(String email, String resetToken) {
+        UserDtls findByEmail = userDtlsRepository.findByEmail(email);
+        findByEmail.setResetToken(resetToken);
+        userDtlsRepository.save(findByEmail);
+    }
 
+    @Override
+    public UserDtls getUserByToken(String token) {
+
+        return userDtlsRepository.findByResetToken(token);
+    }
+
+    @Override
+    public UserDtls updateUserDtls(UserDtls userDtls) {
+        return userDtlsRepository.save(userDtls);
+    }
 
 }

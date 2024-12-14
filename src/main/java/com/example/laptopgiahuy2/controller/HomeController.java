@@ -6,8 +6,14 @@ import com.example.laptopgiahuy2.model.UserDtls;
 import com.example.laptopgiahuy2.service.CategoryService;
 import com.example.laptopgiahuy2.service.ProductService;
 import com.example.laptopgiahuy2.service.UserDtlsService;
+import com.example.laptopgiahuy2.util.CommonUtil;
+import jakarta.mail.MessagingException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
@@ -16,18 +22,22 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.Principal;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class HomeController {
     private CategoryService categoryService;
     private ProductService productService;
     private UserDtlsService userDtlsService;
+    private CommonUtil commonUtil;
+    private BCryptPasswordEncoder passwordEncoder;
 
     @ModelAttribute
     public void getUserDetails(Principal principal, Model model) {
@@ -39,10 +49,12 @@ public class HomeController {
         List<Category>categoryList= categoryService.getCategoryByTrangThai();
         model.addAttribute("categoryList", categoryList);
     }
-    public HomeController(CategoryService categoryService, ProductService productService, UserDtlsService userDtlsService) {
+    public HomeController(CategoryService categoryService, ProductService productService, UserDtlsService userDtlsService, CommonUtil commonUtil, BCryptPasswordEncoder passwordEncoder) {
         this.categoryService = categoryService;
         this.productService = productService;
         this.userDtlsService = userDtlsService;
+        this.commonUtil = commonUtil;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("/")
@@ -90,5 +102,61 @@ public class HomeController {
             session.setAttribute("errorMsg", "Đăng ký thất bại hãy xem lại");
         }
         return "redirect:/register";
+    }
+    @GetMapping("/forgot-password")
+    public String forgotPassword() {
+        return "forgot_password";
+    }
+    @PostMapping("/forgot-password")
+    public String processForgotPassword(@RequestParam String email, HttpSession session,
+                                        HttpServletRequest request)
+            throws MessagingException, UnsupportedEncodingException {
+        UserDtls userDtlsMail= userDtlsService.getUserDtlsByEmail(email);
+
+        if (ObjectUtils.isEmpty(userDtlsMail)) {
+            session.setAttribute("errorMsg", "Invalid email");
+        } else {
+            String resetToken = UUID.randomUUID().toString();
+            userDtlsService.updateUserResetToken(email, resetToken);
+            String url = CommonUtil.generateUrl(request) + "/reset-password?token=" + resetToken;
+
+            Boolean sendMail = commonUtil.sendMail(url, email);
+
+            if (sendMail) {
+                session.setAttribute("succMsg", "Please check your email..Password Reset link sent");
+            } else {
+                session.setAttribute("errorMsg", "Somethong wrong on server ! Email not send");
+            }
+        }
+        return "redirect:/forgot-password";
+    }
+    @GetMapping("/reset-password")
+    public String showResetPassword(@RequestParam String token,Model m) {
+        UserDtls userToken = userDtlsService.getUserByToken(token);
+        if (userToken == null) {
+            m.addAttribute("msg", "Your link is invalid or expired !!");
+            return "message";
+        }
+        m.addAttribute("token", token);
+        return "reset_password";
+    }
+
+
+    @PostMapping("/reset-password")
+    public String resetPassword(@RequestParam String token, @RequestParam String password,
+                                Model m) {
+        UserDtls userByToken = userDtlsService.getUserByToken(token);
+        if (userByToken == null) {
+            m.addAttribute("errorMsg", "Your link is invalid or expired !!");
+            return "message";
+        } else {
+            userByToken.setPassword(passwordEncoder.encode(password));
+            userByToken.setResetToken(null);
+            userDtlsService.updateUserDtls(userByToken);
+            // session.setAttribute("succMsg", "Password change successfully");
+            m.addAttribute("msg", "Password change successfully");
+            return "message";
+        }
+
     }
 }
