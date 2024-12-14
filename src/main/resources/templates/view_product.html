@@ -9,6 +9,15 @@
 	<section>
 		<div class="container card-sh"
 			style="margin-top: 70px; margin-bottom: 100px">
+			<th:block th:if="${session.succMsg}">
+				<p class="text-success fw-bold">[[${session.succMsg}]]</p>
+				<th:block th:text="${@commnServiceImpl.removeSessionMessage()}"></th:block>
+			</th:block>
+
+			<th:block th:if="${session.errorMsg}">
+				<p class="text-danger fw-bold">[[${session.errorMsg}]]</p>
+				<th:block th:text="${@commnServiceImpl.removeSessionMessage()}"></th:block>
+			</th:block>
 
 			<div class="col-md-12 p-5">
 				<div class="row">
@@ -25,7 +34,7 @@
 						</p>
 						<p>
 							<span class="fw-bold">Chi tiết sản phẩm:</span><br>Trạng Thái:
-							<span class="badge bg-success" th:if="${product.trangthai==true}">Sẵn Sàng</span><br>
+							<span class="badge bg-success" th:if="${product.trangthai==true}">Còn Hàng</span><br>
 							Danh Mục: [[${product.danhMuc}]]<br>
 							7 ngày đổi trả
 							<h4>Cấu Hình</h4>
@@ -51,6 +60,24 @@
 							</div>
 						</div>
 
+						<th:block th:if="${product.soluong>0}">
+							<th:block th:if="${userDtls==null}">
+								<a href="/signing" class="btn btn-danger col-md-12">Add To
+									Cart</a>
+							</th:block>
+
+							<th:block th:unless="${userDtls==null}">
+								<a
+										th:href="@{'/user/addCart?pid='+${product.productId}+'&uid='+${userDtls.userId}}"
+										class="btn btn-danger col-md-12">Add To Cart</a>
+							</th:block>
+
+						</th:block>
+
+						<th:block th:unless="${product.soluong>0}">
+							<a href="#" class="btn text-white btn-warning col-md-12">Out
+								of Stock</a>
+						</th:block>
 
 					</div>
 				</div>
