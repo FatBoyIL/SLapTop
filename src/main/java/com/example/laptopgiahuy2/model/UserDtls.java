@@ -5,6 +5,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -22,4 +27,13 @@ public class UserDtls {
     private String password;
     private String profileImage;
     private String role;
+    private Boolean hoatDong;
+    @CreationTimestamp
+    private LocalDateTime createdOn;
+    @UpdateTimestamp
+    private LocalDateTime updatedOn;
+
+    private Boolean accountNonLocked;
+    private Integer failedAttempts;
+    private Date lockTime;
 }

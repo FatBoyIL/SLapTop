@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{base::layout(~{::section})}">
+<head>
+  <meta charset="UTF-8">
+  <title>Insert title here</title>
+</head>
+<body>
+<section>
+  <div class="container-fluid mt-4 p-3">
+    <div class="row">
+      <p class="text-center fs-3 mt-2">All Products</p>
+      <th:block th:if="${session.succMsg}">
+        <p class="text-success fw-bold">[[${session.succMsg}]]</p>
+        <th:block th:text="${@commnServiceImpl.removeSessionMessage()}"></th:block>
+      </th:block>
+
+      <th:block th:if="${session.errorMsg}">
+        <p class="text-danger fw-bold">[[${session.errorMsg}]]</p>
+        <th:block th:text="${@commnServiceImpl.removeSessionMessage()}"></th:block>
+      </th:block>
+      <hr>
+      <a href="/admin/" class="text-decoration-none"><i
+              class="fa-solid fa-arrow-left"></i> Back</a>
+      <div class="col-md-4 p-3">
+
+        <form action="/admin/products" method="get">
+          <div class="row">
+            <div class="col">
+              <input type="text" class="form-control " name="ch">
+            </div>
+            <div class="col">
+              <button class="btn btn-primary col">Tìm</button>
+            </div>
+          </div>
+        </form>
+
+      </div>
+
+
+      <!-- <div class="card card-sh">-->
+      <div class="p-3">
+        <table class="table table-bordered">
+          <thead class="table-light ">
+          <tr>
+            <th scope="col">Sl No</th>
+            <th scope="col">Hình Ảnh</th>
+            <th scope="col">Tên Người Dùng</th>
+            <th scope="col">SDT</th>
+            <th scope="col">Email</th>
+            <th scope="col">Địa Chỉ</th>
+            <th scope="col">Mật Khâu</th>
+            <th scope="col">Role</th>
+            <th scope="col">Trang Thai</th>
+            <th scope="col">Action</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="p,c:${userDtlsList}">
+            <th scope="row">[[${c.count}]]</th>
+            <td><img th:src="@{'/img/product_img/'+${p.profileImage}}"
+                     width="70px" height="70px"></td>
+            <td th:text="${p.userName}">
+            </td>
+            <td th:text="${p.sdt}">
+            </td>
+            <td th:text="${p.email}">
+            </td>
+            <td th:text="${p.diachi}">
+            </td>
+            <td th:text="${p.password}">
+            </td>
+            <td th:text="${p.role}">
+            </td>
+            <td th:text="${p.hoatDong == true} ? 'HOAT DONG' : 'KHOA'">
+            </td>
+
+            <td><a th:href="@{'/admin/updateSts?active=true&id='+${p.userId}}"
+                   class="btn btn-sm btn-primary"><i class="fa-solid fa-unlock"></i> Unclock</a> <a
+                    th:href="@{'/admin/updateSts?active=false&id='+${p.userId}}"
+                    class="btn btn-sm btn-danger"><i class="fa-solid fa-lock"></i>
+              Lock</a></td>
+          </tr>
+
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+  </div>
+  <!-- 	</div> -->
+</section>
+</body>
+</html>

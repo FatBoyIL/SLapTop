@@ -1,13 +1,18 @@
 package com.example.laptopgiahuy2.config;
 
 import com.example.laptopgiahuy2.model.UserDtls;
-import com.example.laptopgiahuy2.repository.UserRepository;
+import com.example.laptopgiahuy2.repository.UserDtlsRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UserDetailsServiceImpl implements UserDetailsService {
-    private UserRepository userRepository;
+
+    @Autowired
+    private UserDtlsRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

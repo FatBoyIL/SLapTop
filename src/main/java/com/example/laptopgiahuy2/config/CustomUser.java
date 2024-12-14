@@ -19,7 +19,7 @@ public class CustomUser implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         SimpleGrantedAuthority authority = new SimpleGrantedAuthority(user.getRole());
-        return List.of(authority);
+        return Arrays.asList(authority);
     }
 
     @Override
@@ -39,7 +39,7 @@ public class CustomUser implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return user.getAccountNonLocked();
     }
 
     @Override
@@ -49,6 +49,6 @@ public class CustomUser implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return user.getHoatDong();
     }
 }

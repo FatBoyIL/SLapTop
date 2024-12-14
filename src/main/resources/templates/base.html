@@ -39,20 +39,46 @@
 
                 <li class="nav-item dropdown"><a
                         class="nav-link dropdown-toggle" href="#" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">Danh Muc</a>
-                </li>
+                        data-bs-toggle="dropdown" aria-expanded="false"> Danh Mục </a>
+                    <ul class="dropdown-menu">
+                        <li th:each="c:${categoryList}"><a class="dropdown-item"
+                                                        th:href="@{'/products?category='+${c.tendanhmuc}}">[[${c.tendanhmuc}]]</a></li>
+
+                    </ul></li>
 
             </ul>
 
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link active"
-                                        aria-current="page" href="/signin"><i
-                        class="fa-solid fa-right-to-bracket"></i> Đăng Nhập</a></li>
-                <li class="nav-item"><a class="nav-link active"
-                                        aria-current="page" href="/register">Đăng Ký</a></li>
-                <li class="nav-item"><a class="nav-link active"
-                                        aria-current="page" href="/register">ADMIN</a></li>
+                <th:block th:if="${userDtls==null}">
+                    <li class="nav-item"><a class="nav-link active"
+                                            aria-current="page" href="/signing"><i
+                            class="fa-solid fa-right-to-bracket"></i> Đăng Nhập</a></li>
+                    <li class="nav-item"><a class="nav-link active"
+                                            aria-current="page" href="/register">Đăng Ký</a></li>
+                    <li class="nav-item"><a class="nav-link active"
+                                            aria-current="page" href="#">ADMIN</a></li>
+                </th:block>
+                <th:block th:if="${userDtls!=null}">
+                    <li class="nav-item dropdown" style="margin-right: 100px"><a
+                            class="nav-link dropdown-toggle active" href="#" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false"> <i
+                            class="fa-solid fa-user"></i> [[${userDtls.userName}]]
+                    </a>
+                        <ul class="dropdown-menu">
+                            <li><a
+                                    class="dropdown-item" href="/user/profile">Profile</a></li>
 
+                            <li><a
+                                    class="dropdown-item" href="/admin/profile">Profile</a></li>
+
+                            <li><a
+                                    class="dropdown-item" href="/user/user-orders">My Orders</a></li>
+                            <li><a class="dropdown-item" href="/logout">Đăng Xuất</a></li>
+                            <li><hr class="dropdown-divider"></li>
+
+                        </ul></li>
+
+                </th:block>
             </ul>
 
         </div>

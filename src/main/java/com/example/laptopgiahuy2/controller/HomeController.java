@@ -20,6 +20,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -28,6 +29,16 @@ public class HomeController {
     private ProductService productService;
     private UserDtlsService userDtlsService;
 
+    @ModelAttribute
+    public void getUserDetails(Principal principal, Model model) {
+        if (principal != null) {
+            String email = principal.getName();
+            UserDtls userDtls= userDtlsService.getUserDtlsByEmail(email);
+            model.addAttribute("userDtls", userDtls);
+        }
+        List<Category>categoryList= categoryService.getCategoryByTrangThai();
+        model.addAttribute("categoryList", categoryList);
+    }
     public HomeController(CategoryService categoryService, ProductService productService, UserDtlsService userDtlsService) {
         this.categoryService = categoryService;
         this.productService = productService;
@@ -38,7 +49,7 @@ public class HomeController {
     public String home() {
         return "index";
     }
-    @GetMapping("/signin")
+    @GetMapping("/signing")
     public String login() {
         return "login";
     }
@@ -80,5 +91,4 @@ public class HomeController {
         }
         return "redirect:/register";
     }
-
 }

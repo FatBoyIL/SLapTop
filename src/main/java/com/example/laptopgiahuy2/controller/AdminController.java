@@ -2,8 +2,10 @@ package com.example.laptopgiahuy2.controller;
 
 import com.example.laptopgiahuy2.model.Category;
 import com.example.laptopgiahuy2.model.Product;
+import com.example.laptopgiahuy2.model.UserDtls;
 import com.example.laptopgiahuy2.service.CategoryService;
 import com.example.laptopgiahuy2.service.ProductService;
+import com.example.laptopgiahuy2.service.UserDtlsService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
@@ -18,6 +20,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -25,12 +28,22 @@ import java.util.List;
 public class AdminController {
     private CategoryService categoryService;
     private ProductService productService;
-
-    public AdminController(CategoryService categoryService, ProductService productService) {
+    private UserDtlsService userDtlsService;
+    public AdminController(CategoryService categoryService, ProductService productService, UserDtlsService userDtlsService) {
         this.categoryService = categoryService;
         this.productService = productService;
+        this.userDtlsService = userDtlsService;
     }
-
+    @ModelAttribute
+    public void getUserDetails(Principal principal, Model model) {
+        if (principal != null) {
+            String email = principal.getName();
+            UserDtls userDtls= userDtlsService.getUserDtlsByEmail(email);
+            model.addAttribute("userDtls", userDtls);
+        }
+        List<Category>categoryList= categoryService.getCategoryByTrangThai();
+        model.addAttribute("categoryList", categoryList);
+    }
     @GetMapping("/")
     public String index() {
         return "admin/index";
@@ -190,5 +203,23 @@ public class AdminController {
 
         }
         return "redirect:/admin/products";
+    }
+    @GetMapping("/users")
+    public String getAllUserDtls(Model model) {
+        List<UserDtls> userDtlsList = userDtlsService.getAllUserDtls("ROLE_USER");
+        model.addAttribute("userDtlsList", userDtlsList);
+        return "admin/users";
+    }
+    @GetMapping("/updateSts")
+    public String updateUserDtlsActive(@RequestParam Boolean active,@RequestParam Integer id, HttpSession session) {
+        Boolean f = userDtlsService.updateUserDtlsActicve(id,active);
+//        if (f){
+//
+//            session.setAttribute("succMsg", "Mo Khoa User Thanh Cong");
+//        }
+//        else {
+//            session.setAttribute("errorMsg", "Khong Mo Khoa Duoc");
+//        }
+        return "redirect:/admin/users";
     }
 }
