@@ -2,10 +2,7 @@ package com.example.laptopgiahuy2.controller;
 
 import com.example.laptopgiahuy2.model.*;
 import com.example.laptopgiahuy2.repository.CartRepository;
-import com.example.laptopgiahuy2.service.CartService;
-import com.example.laptopgiahuy2.service.CategoryService;
-import com.example.laptopgiahuy2.service.ProductOrderService;
-import com.example.laptopgiahuy2.service.UserDtlsService;
+import com.example.laptopgiahuy2.service.*;
 import com.example.laptopgiahuy2.util.CommonUtil;
 import com.example.laptopgiahuy2.util.OrderStatus;
 import jakarta.mail.MessagingException;
@@ -31,13 +28,15 @@ public class UserController {
     private ProductOrderService productOrderService;
     private CommonUtil commonUtil;
     private PasswordEncoder passwordEncoder;
-    public UserController(UserDtlsService userDtlsService, CategoryService categoryService, CartService cartService, ProductOrderService productOrderService, CommonUtil commonUtil, PasswordEncoder passwordEncoder) {
+    private ProductService productService;
+    public UserController(UserDtlsService userDtlsService, CategoryService categoryService, CartService cartService, ProductOrderService productOrderService, CommonUtil commonUtil, PasswordEncoder passwordEncoder, ProductService productService) {
         this.userDtlsService = userDtlsService;
         this.categoryService = categoryService;
         this.cartService = cartService;
         this.productOrderService = productOrderService;
         this.commonUtil = commonUtil;
         this.passwordEncoder = passwordEncoder;
+        this.productService = productService;
     }
     private UserDtls getLoggedUser(Principal principal) {
         String email = principal.getName();
@@ -174,4 +173,5 @@ public class UserController {
 
         return "redirect:/user/profile";
     }
+
 }

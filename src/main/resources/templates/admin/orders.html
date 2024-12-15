@@ -27,11 +27,11 @@
 					<form action="/admin/search-order" method="get">
 						<div class="row">
 							<div class="col">
-								<input type="text" class="form-control " name="orderId"
+								<input type="text" class="form-control " name="prderId"
 									placeholder="Enter order id">
 							</div>
 							<div class="col">
-								<button class="btn btn-primary col">Search</button>
+								<button class="btn btn-primary col">Tìm</button>
 							</div>
 						</div>
 					</form>
@@ -43,64 +43,120 @@
 						<thead class="table-light">
 							<tr>
 								<th scope="col">Order Id</th>
-								<th scope="col">Deliver Details</th>
-								<th scope="col">Date</th>
-								<th scope="col">Product Details</th>
-								<th scope="col">Price</th>
-								<th scope="col">Status</th>
+								<th scope="col">Thông Tin Khách Hàng</th>
+								<th scope="col">Ngày</th>
+								<th scope="col">Chi Tiết Sản Phẩm</th>
+								<th scope="col">Giá</th>
+								<th scope="col">Trạng Thái</th>
 								<th scope="col">Action</th>
 							</tr>
 						</thead>
 						<tbody>
+						<th:block th:if="${srch}">
+							<th:block th:if="${orderDtls!=null}">
+								<tr>
 
-									<tr th:each="order : ${orders}" >
-
-										<th scope="row">[[${order.orderId}]]</th>
-										<td>Name : [[${order.orderAddress.guestName}]]<br> Email :
-											[[${order.orderAddress.email}]] <br> SDT:
-											[[${order.orderAddress.sdt}]] <br> Địa Chỉ :
-											[[${order.orderAddress.address}]] <br> Ghi Chú :
-											[[${order.orderAddress.ghichu}]]
-										</td>
-										<td>[[${order.orderDate}]]</td>
-										<td>[[${order.product.tensanpham}]]</td>
-										<td>Quantity : [[${order.quantity}]] <br>Price :
-											[[${order.price}]] <br>Total Price
-											:[[${order.quantity * order.price}]]
-										</td>
-										<td>[[${order.status}]]</td>
-										<td>
-											<form action="/admin/update-order-status" method="post">
-												<div class="row">
-													<div class="col">
-														<select class="form-control" name="st">
-															<option>--select--</option>
-															<option value="1">ĐANG XỬ LÝ</option>
-															<option value="2">ĐẶT HÀNG</option>
-															<option value="3">ĐÃ CHUẨN BỊ XONG</option>
-															<option value="4">ĐANG VẬN CHUYỂN</option>
-															<option value="5">HOÀN TẤT</option>
-															<option value="6">HỦY ĐƠN</option>
-														</select>
-													</div>
-													<input th:value="${order.id}" name="id" type="hidden">
-													<div class="col">
-														<th:block
-															th:if="${order.status=='HỦY ĐƠN' || order.status=='HOÀN TẤT'}">
-															<button class="btn btn-primary btn-sm col disabled">Update</button>
-														</th:block>
-														<th:block
-															th:unless="${order.status=='HỦY ĐƠN' || order.status=='HOÀN TẤT'}">
-															<button class="btn btn-sm btn-primary ">Update</button>
-														</th:block>
-
-
-													</div>
+									<th scope="row">[[${orderDtls.orderId}]]</th>
+									<td>Name : [[${orderDtls.orderAddress.guestName}]]<br> Email :
+										[[${orderDtls.orderAddress.email}]] <br> SDT:
+										[[${orderDtls.orderAddress.sdt}]] <br> Địa Chỉ :
+										[[${orderDtls.orderAddress.address}]] <br> Ghi Chú :
+										[[${orderDtls.orderAddress.ghichu}]]
+									</td>
+									<td>[[${orderDtls.orderDate}]]</td>
+									<td>[[${orderDtls.product.tensanpham}]]</td>
+									<td>Quantity : [[${orderDtls.quantity}]] <br>Price :
+										[[${orderDtls.price}]] <br>Total Price
+										:[[${orderDtls.quantity * orderDtls.price}]]
+									</td>
+									<td>[[${orderDtls.status}]]</td>
+									<td>
+										<form action="/admin/update-order-status" method="post">
+											<div class="row">
+												<div class="col">
+													<select class="form-control" name="st">
+														<option>--select--</option>
+														<option value="1">ĐANG XỬ LÝ</option>
+														<option value="2">ĐẶT HÀNG</option>
+														<option value="3">ĐÃ CHUẨN BỊ XONG</option>
+														<option value="4">ĐANG VẬN CHUYỂN</option>
+														<option value="5">HOÀN TẤT</option>
+														<option value="6">HỦY ĐƠN</option>
+													</select>
 												</div>
-											</form>
-										</td>
-									</tr>
+												<input th:value="${orderDtls.id}" name="id" type="hidden">
+												<div class="col">
+													<th:block
+															th:if="${orderDtls.status=='HỦY ĐƠN' || orderDtls.status=='HOÀN TẤT'}">
+														<button class="btn btn-primary btn-sm col disabled">Update</button>
+													</th:block>
+													<th:block
+															th:unless="${orderDtls.status=='HỦY ĐƠN' || orderDtls.status=='HOÀN TẤT'}">
+														<button class="btn btn-sm btn-primary ">Update</button>
+													</th:block>
 
+
+												</div>
+											</div>
+										</form>
+									</td>
+								</tr>
+							</th:block>
+							<th:block th:unless="${orderDtls!=null}">
+								<p>[[${errorMsg}]]</p>
+							</th:block>
+
+							</th:block>
+							<th:block th:unless="${srch}">
+								<tr th:each="order : ${orders}" >
+
+									<th scope="row">[[${order.orderId}]]</th>
+									<td>Name : [[${order.orderAddress.guestName}]]<br> Email :
+										[[${order.orderAddress.email}]] <br> SDT:
+										[[${order.orderAddress.sdt}]] <br> Địa Chỉ :
+										[[${order.orderAddress.address}]] <br> Ghi Chú :
+										[[${order.orderAddress.ghichu}]]
+									</td>
+									<td>[[${order.orderDate}]]</td>
+									<td>[[${order.product.tensanpham}]]</td>
+									<td>Quantity : [[${order.quantity}]] <br>Price :
+										[[${order.price}]] <br>Total Price
+										:[[${order.quantity * order.price}]]
+									</td>
+									<td>[[${order.status}]]</td>
+									<td>
+										<form action="/admin/update-order-status" method="post">
+											<div class="row">
+												<div class="col">
+													<select class="form-control" name="st">
+														<option>--select--</option>
+														<option value="1">ĐANG XỬ LÝ</option>
+														<option value="2">ĐẶT HÀNG</option>
+														<option value="3">ĐÃ CHUẨN BỊ XONG</option>
+														<option value="4">ĐANG VẬN CHUYỂN</option>
+														<option value="5">HOÀN TẤT</option>
+														<option value="6">HỦY ĐƠN</option>
+													</select>
+												</div>
+												<input th:value="${order.id}" name="id" type="hidden">
+												<div class="col">
+													<th:block
+															th:if="${order.status=='HỦY ĐƠN' || order.status=='HOÀN TẤT'}">
+														<button class="btn btn-primary btn-sm col disabled">Update</button>
+													</th:block>
+													<th:block
+															th:unless="${order.status=='HỦY ĐƠN' || order.status=='HOÀN TẤT'}">
+														<button class="btn btn-sm btn-primary ">Update</button>
+													</th:block>
+
+
+												</div>
+											</div>
+										</form>
+									</td>
+								</tr>
+
+							</th:block>
 						</tbody>
 					</table>
 

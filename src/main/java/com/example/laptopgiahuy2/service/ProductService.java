@@ -15,4 +15,5 @@ public interface ProductService{
     public Boolean deleteProduct(int id);
     public Product updateProduct(Product product, MultipartFile file);
     public List<Product> getActiveProducts(String category);
+    public List<Product> searchProducts(String keyword);
 }

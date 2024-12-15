@@ -227,6 +227,7 @@ public class AdminController {
     public String loadOrders(Model model) {
         List<ProductOrder> orders = productOrderService.getAllOrders();
         model.addAttribute("orders", orders);
+        model.addAttribute("srch", false);
         return "admin/orders";
     }
     @PostMapping("/update-order-status")
@@ -249,5 +250,24 @@ public class AdminController {
             session.setAttribute("errorMsg", "status not updated");
         }
         return "redirect:/admin/orders";
+    }
+    @GetMapping("search-order")
+    public String searchProduct(@RequestParam String prderId, Model model, HttpSession session) {
+        if (prderId!=null&&prderId.length()>0) {
+            ProductOrder order = productOrderService.getOrderById(prderId.trim());
+            if (ObjectUtils.isEmpty(order)) {
+                session.setAttribute("errorMsg", "Mã đơn hàng chưa đúng");
+                model.addAttribute("orderDtls", null);
+            } else {
+                model.addAttribute("orderDtls", order);
+            }
+            model.addAttribute("srch", true);
+        }else {
+            List<ProductOrder> orders = productOrderService.getAllOrders();
+            model.addAttribute("orders", orders);
+            model.addAttribute("srch", false);
+        }
+
+        return "admin/orders";
     }
 }

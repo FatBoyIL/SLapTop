@@ -80,6 +80,12 @@ public class ProductOrderServiceImpl implements ProductOrderService {
     @Override
     public List<ProductOrder> getAllOrders() {
         List<ProductOrder> orders = productOrderRepository.findAll();
-        return orders   ;
+        return orders;
+    }
+
+    @Override
+    public ProductOrder getOrderById(String orderId) {
+
+        return  productOrderRepository.findByOrderId(orderId);
     }
 }

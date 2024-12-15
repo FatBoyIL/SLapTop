@@ -163,4 +163,12 @@ public class HomeController {
         }
 
     }
+    @GetMapping("/search")
+    public String search(@RequestParam String keyword, Model model) {
+        List<Product> searchP = productService.searchProducts(keyword);
+        model.addAttribute("products", searchP);
+        List<Category> categories = categoryService.getAllCategories();
+        model.addAttribute("categories", categories);
+        return "product";
+    }
 }
