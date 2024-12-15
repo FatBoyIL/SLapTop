@@ -2,19 +2,18 @@ package com.example.laptopgiahuy2.controller;
 
 import com.example.laptopgiahuy2.model.Cart;
 import com.example.laptopgiahuy2.model.Category;
+import com.example.laptopgiahuy2.model.OrderRequest;
 import com.example.laptopgiahuy2.model.UserDtls;
 import com.example.laptopgiahuy2.repository.CartRepository;
 import com.example.laptopgiahuy2.service.CartService;
 import com.example.laptopgiahuy2.service.CategoryService;
+import com.example.laptopgiahuy2.service.ProductOrderService;
 import com.example.laptopgiahuy2.service.UserDtlsService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
@@ -25,10 +24,12 @@ public class UserController {
     private UserDtlsService userDtlsService;
     private CategoryService categoryService;
     private CartService cartService;
-    public UserController(UserDtlsService userDtlsService, CategoryService categoryService, CartService cartService) {
+    private ProductOrderService productOrderService;
+    public UserController(UserDtlsService userDtlsService, CategoryService categoryService, CartService cartService, ProductOrderService productOrderService) {
         this.userDtlsService = userDtlsService;
         this.categoryService = categoryService;
         this.cartService = cartService;
+        this.productOrderService = productOrderService;
     }
     @ModelAttribute
     public void getUserDetails(Principal principal, Model model) {
@@ -36,6 +37,8 @@ public class UserController {
             String email = principal.getName();
             UserDtls userDtls= userDtlsService.getUserDtlsByEmail(email);
             model.addAttribute("userDtls", userDtls);
+            Integer countCart= cartService.getCountCart(userDtls.getUserId());
+            model.addAttribute("countCart", countCart);
         }
         List<Category> categoryList= categoryService.getCategoryByTrangThai();
         model.addAttribute("categoryList", categoryList);
@@ -55,5 +58,49 @@ public class UserController {
             session.setAttribute("succMsg", "Product added to cart");
         }
         return "redirect:/product/"+pid;
+    }
+    @GetMapping("/cart")
+    public String loadCartPage(Principal principal, Model model) {
+        UserDtls userDtls = getLoggedUser(principal);
+        List<Cart> cartList= cartService.getCartByUserId(userDtls.getUserId());
+        model.addAttribute("cartList", cartList);
+        if (cartList.size() > 0) {
+            Integer totalPrice= cartList.get(cartList.size()-1).getTotalOrderPrice();
+            model.addAttribute("totalOrderPrice", totalPrice);
+        }
+        return "user/cart";
+    }
+    @GetMapping("/cartQuantityUpdate")
+    public String updateCartQuantity(@RequestParam String sy, @RequestParam Integer cid) {
+      cartService.updateQuantity(sy,cid);
+      return "redirect:/user/cart";
+    }
+    private UserDtls getLoggedUser(Principal principal) {
+        String email = principal.getName();
+        UserDtls userDtls= userDtlsService.getUserDtlsByEmail(email);
+        return userDtls;
+    }
+
+    @GetMapping("/orders")
+    public String loadOrders(Principal p, Model m) {
+        UserDtls user = getLoggedUser(p);
+        List<Cart> carts = cartService.getCartByUserId(user.getUserId());
+        m.addAttribute("carts", carts);
+        if (carts.size() > 0) {
+            Integer orderPrice = carts.get(carts.size() - 1).getTotalOrderPrice();
+            Integer totalOrderPrice = (int) Math.round((carts.get(carts.size() - 1).getTotalOrderPrice() + 50000) * 0.1);
+            m.addAttribute("orderPrice", orderPrice);
+            m.addAttribute("totalOrderPrice", totalOrderPrice);
+        }
+        return "user/order";
+    }
+
+    @PostMapping("/save-order")
+    public String saveOrders(@ModelAttribute OrderRequest orderRequest,Principal principal) {
+        //System.out.println(orderRequest);
+        UserDtls userDtls = getLoggedUser(principal);
+        productOrderService.saveProductOrder(userDtls.getUserId(),orderRequest);
+
+        return "/user/success";
     }
 }

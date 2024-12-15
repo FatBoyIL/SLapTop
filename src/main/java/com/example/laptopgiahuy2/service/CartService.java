@@ -1,7 +1,6 @@
 package com.example.laptopgiahuy2.service;
 
 import com.example.laptopgiahuy2.model.Cart;
-import com.example.laptopgiahuy2.model.UserDtls;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,4 +9,7 @@ import java.util.List;
 public interface CartService {
     Cart saveCart(Integer productId,Integer userId);
     List<Cart> getCartByUserId(Integer userId);
+    Integer getCountCart(Integer userId);
+
+    void updateQuantity(String sy, Integer cid);
 }

@@ -59,6 +59,8 @@
                                             aria-current="page" href="#">ADMIN</a></li>
                 </th:block>
                 <th:block th:if="${userDtls!=null}">
+                    <li class="nav-item"><a class="nav-link active"
+                                            aria-current="page" href="/user/cart">Cart [[${countCart}]]</a></li>
                     <li class="nav-item dropdown" style="margin-right: 100px"><a
                             class="nav-link dropdown-toggle active" href="#" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false"> <i
@@ -67,12 +69,8 @@
                         <ul class="dropdown-menu">
                             <li><a
                                     class="dropdown-item" href="/user/profile">Profile</a></li>
-
                             <li><a
-                                    class="dropdown-item" href="/admin/profile">Profile</a></li>
-
-                            <li><a
-                                    class="dropdown-item" href="/user/user-orders">My Orders</a></li>
+                                    class="dropdown-item" href="/user/user-orders">Giỏ Hàng</a></li>
                             <li><a class="dropdown-item" href="/logout">Đăng Xuất</a></li>
                             <li><hr class="dropdown-divider"></li>
 

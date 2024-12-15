@@ -3,6 +3,7 @@ package com.example.laptopgiahuy2.controller;
 import com.example.laptopgiahuy2.model.Category;
 import com.example.laptopgiahuy2.model.Product;
 import com.example.laptopgiahuy2.model.UserDtls;
+import com.example.laptopgiahuy2.service.CartService;
 import com.example.laptopgiahuy2.service.CategoryService;
 import com.example.laptopgiahuy2.service.ProductService;
 import com.example.laptopgiahuy2.service.UserDtlsService;
@@ -38,23 +39,26 @@ public class HomeController {
     private UserDtlsService userDtlsService;
     private CommonUtil commonUtil;
     private BCryptPasswordEncoder passwordEncoder;
-
+    private CartService cartService;
     @ModelAttribute
     public void getUserDetails(Principal principal, Model model) {
         if (principal != null) {
             String email = principal.getName();
             UserDtls userDtls= userDtlsService.getUserDtlsByEmail(email);
             model.addAttribute("userDtls", userDtls);
+           Integer countCart= cartService.getCountCart(userDtls.getUserId());
+           model.addAttribute("countCart", countCart);
         }
         List<Category>categoryList= categoryService.getCategoryByTrangThai();
         model.addAttribute("categoryList", categoryList);
     }
-    public HomeController(CategoryService categoryService, ProductService productService, UserDtlsService userDtlsService, CommonUtil commonUtil, BCryptPasswordEncoder passwordEncoder) {
+    public HomeController(CategoryService categoryService, ProductService productService, UserDtlsService userDtlsService, CommonUtil commonUtil, BCryptPasswordEncoder passwordEncoder, CartService cartService) {
         this.categoryService = categoryService;
         this.productService = productService;
         this.userDtlsService = userDtlsService;
         this.commonUtil = commonUtil;
         this.passwordEncoder = passwordEncoder;
+        this.cartService = cartService;
     }
 
     @GetMapping("/")

@@ -10,6 +10,7 @@ import com.example.laptopgiahuy2.service.CartService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 @Service
 public class CartServiceImpl implements CartService {
@@ -49,6 +50,46 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public List<Cart> getCartByUserId(Integer userId) {
-        return List.of();
+       List<Cart> cartList= cartRepository.findByUser_UserId(userId);
+       Integer totalOrderPrice=0;
+       List<Cart> updateCart=new ArrayList<>();
+       for (Cart cart: cartList) {
+           Integer totalPrice = (cart.getProduct().getGiaSale()*cart.getQuantity());
+           cart.setTotalPrice(totalPrice);
+
+           totalOrderPrice+=totalPrice;
+           cart.setTotalOrderPrice(totalOrderPrice);
+           updateCart.add(cart);
+       }
+        return updateCart;
+    }
+
+
+    @Override
+    public Integer getCountCart(Integer userId) {
+        Integer countByUserId= cartRepository.countByUser_UserId(userId);
+        return countByUserId;
+    }
+
+    @Override
+    public void updateQuantity(String sy, Integer cid) {
+        Cart cart = cartRepository.findById(cid).get();
+        int updateQuantity;
+
+        if (sy.equalsIgnoreCase("de")) {
+            updateQuantity = cart.getQuantity() - 1;
+
+            if (updateQuantity <= 0) {
+                cartRepository.delete(cart);
+            } else {
+                cart.setQuantity(updateQuantity);
+                cartRepository.save(cart);
+            }
+
+        } else {
+            updateQuantity = cart.getQuantity() + 1;
+            cart.setQuantity(updateQuantity);
+            cartRepository.save(cart);
+        }
     }
 }

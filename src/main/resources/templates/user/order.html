@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{base::layout(~{::section})}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<section>
+
+		<div class="container mt-5 p-5">
+			<form action="/user/save-order" method="post" id="orders" novalidate>
+				<div class="row">
+
+					<div class="col-md-6">
+
+
+						<div class="mb-3 row">
+							<p class="text-center fs-4">Billing Address</p>
+							<hr>
+							<div class="col p-1">
+								<label>Tên Người Nhận</label> <input type="text" name="guestName" required
+									class="form-control mt-1">
+							</div>
+						</div>
+
+						<div class="mb-3 row">
+							<div class="col p-1">
+								<label>Email</label> <input type="email" name="email" required
+									class="form-control col">
+							</div>
+							<div class="col p-1">
+								<label>Số Điện Thoại</label> <input type="text" name="sdt" required
+									class="form-control col ms-2">
+							</div>
+						</div>
+
+						<div class="mb-3 row">
+							<div class="col p-1">
+								<label>Địa Chỉ</label> <input type="text" name="address" required
+									class="form-control col">
+							</div>
+						</div>
+						<div class="mb-3 row">
+							<div class="col p-1">
+								<label>Ghi Chú</label> 	<textarea rows="3" cols="" class="form-control"
+																	name="ghichu"></textarea>
+							</div>
+						</div>
+						<!-- </form> -->
+
+					</div>
+					<div class="col-md-6">
+						<p class="text-center fs-4">Thông Tin Giá Tiền</p>
+						<hr>
+						<div class="card">
+							<div class="card-body">
+								<table class="table table-borderless">
+									<tbody>
+										<tr>
+											<td>Tổng Tiền</td>
+											<td>:</td>
+											<td>[[${orderPrice}]] VND</td>
+										</tr>
+										<tr>
+											<td>Tiền Giao Hàng</td>
+											<td>:</td>
+											<td>50.000 VND</td>
+										</tr>
+
+										<tr>
+											<td>Thuế</td>
+											<td>:</td>
+											<td>10%</td>
+										</tr>
+
+										<tr class="border-top">
+											<td>Tổng Giá Tiền Thực Tế</td>
+											<td>:</td>
+											<td>[[${totalOrderPrice}]] VND</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+
+						<div class="card shadow p-3 mb-5 mt-2 bg-body-tertiary rounded">
+
+							<div class="card-body">
+								<!-- <form action="/login" method="post"> -->
+								<div class="mb-3">
+									<label class="form-label">Chọn Kiểu Thanh Toán</label> <select required
+										name="paymentType" class="form-control">
+										<option value="">--select--</option>
+										<option value="COD">Tiền Mặt</option>
+										<option value="ONLINE">Chuyển Khoản</option>
+									</select>
+
+								</div>
+
+								<button class="btn bg-primary text-white col-md-12">Đặt Hàng</button>
+
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</form>
+		</div>
+
+	</section>
+</body>
+</html>
