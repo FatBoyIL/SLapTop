@@ -6,13 +6,19 @@ import com.example.laptopgiahuy2.service.CartService;
 import com.example.laptopgiahuy2.service.CategoryService;
 import com.example.laptopgiahuy2.service.ProductOrderService;
 import com.example.laptopgiahuy2.service.UserDtlsService;
+import com.example.laptopgiahuy2.util.CommonUtil;
 import com.example.laptopgiahuy2.util.OrderStatus;
+import jakarta.mail.MessagingException;
+import jakarta.mail.Multipart;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.UnsupportedEncodingException;
 import java.security.Principal;
 import java.util.List;
 
@@ -23,11 +29,20 @@ public class UserController {
     private CategoryService categoryService;
     private CartService cartService;
     private ProductOrderService productOrderService;
-    public UserController(UserDtlsService userDtlsService, CategoryService categoryService, CartService cartService, ProductOrderService productOrderService) {
+    private CommonUtil commonUtil;
+    private PasswordEncoder passwordEncoder;
+    public UserController(UserDtlsService userDtlsService, CategoryService categoryService, CartService cartService, ProductOrderService productOrderService, CommonUtil commonUtil, PasswordEncoder passwordEncoder) {
         this.userDtlsService = userDtlsService;
         this.categoryService = categoryService;
         this.cartService = cartService;
         this.productOrderService = productOrderService;
+        this.commonUtil = commonUtil;
+        this.passwordEncoder = passwordEncoder;
+    }
+    private UserDtls getLoggedUser(Principal principal) {
+        String email = principal.getName();
+        UserDtls userDtls= userDtlsService.getUserDtlsByEmail(email);
+        return userDtls;
     }
     @ModelAttribute
     public void getUserDetails(Principal principal, Model model) {
@@ -73,11 +88,7 @@ public class UserController {
       cartService.updateQuantity(sy,cid);
       return "redirect:/user/cart";
     }
-    private UserDtls getLoggedUser(Principal principal) {
-        String email = principal.getName();
-        UserDtls userDtls= userDtlsService.getUserDtlsByEmail(email);
-        return userDtls;
-    }
+
 
     @GetMapping("/orders")
     public String loadOrders(Principal p, Model m) {
@@ -95,7 +106,7 @@ public class UserController {
     }
 
     @PostMapping("/save-order")
-    public String saveOrders(@ModelAttribute OrderRequest orderRequest,Principal principal) {
+    public String saveOrders(@ModelAttribute OrderRequest orderRequest,Principal principal) throws Exception {
         //System.out.println(orderRequest);
         UserDtls userDtls = getLoggedUser(principal);
         productOrderService.saveProductOrder(userDtls.getUserId(),orderRequest);
@@ -110,7 +121,7 @@ public class UserController {
         return "/user/my_orders";
     }
     @GetMapping("/update-status")
-    public String updateOrderStatus(@RequestParam Integer id, @RequestParam Integer st, HttpSession session) {
+    public String updateOrderStatus(@RequestParam Integer id, @RequestParam Integer st, HttpSession session) throws MessagingException, UnsupportedEncodingException {
 
         OrderStatus[] values = OrderStatus.values();
         String status = null;
@@ -120,6 +131,7 @@ public class UserController {
             }
         }
         ProductOrder updateOrder = productOrderService.updateOrderStatus(id, status);
+        commonUtil.sendMailProductOrder(updateOrder,status);
         if (!ObjectUtils.isEmpty(updateOrder)) {
             session.setAttribute("succMsg", "Hủy Hàng Thành Công");
         } else {
@@ -127,5 +139,39 @@ public class UserController {
         }
         return "redirect:/user/user-orders";
     }
+    @GetMapping("/profile")
+    public String profile() {
+        return "user/profile";
+    }
+    @PostMapping("/update-profile")
+    public String updateProfile(@ModelAttribute UserDtls userDtls, @RequestParam MultipartFile img,HttpSession session) {
+      UserDtls userDtls1= userDtlsService.updateUserProfile(userDtls,img);
+        if (!ObjectUtils.isEmpty(userDtls1)) {
+            session.setAttribute("succMsg", "Cập Nhật Profile Thành Công");
+        } else {
+            session.setAttribute("errorMsg", "Không Cập Nhật Được");
+        }
+        return "redirect:/user/profile";
+    }
+    @PostMapping("/change-password")
+    public String changePassword(@RequestParam String oldPassword, @RequestParam String newPassword, Principal p,HttpSession session)
+    {
+        UserDtls userDtls = getLoggedUser(p);
+        boolean matches = passwordEncoder.matches(oldPassword,userDtls.getPassword());
 
+        if (matches) {
+            String encodePassword = passwordEncoder.encode(newPassword);
+            userDtls.setPassword(encodePassword);
+            UserDtls updateUser = userDtlsService.updateUserDtls(userDtls);
+            if (ObjectUtils.isEmpty(updateUser)) {
+                session.setAttribute("errorMsg", "Mật Khẩu Chưa Được Cập Nhật");
+            } else {
+                session.setAttribute("succMsg", "Mật Khẩu Đã Được Cập Nhật");
+            }
+        } else {
+            session.setAttribute("errorMsg", "Mật Khẩu Chưa Chính Xác");
+        }
+
+        return "redirect:/user/profile";
+    }
 }

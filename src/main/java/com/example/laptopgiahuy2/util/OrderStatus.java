@@ -6,7 +6,8 @@ public enum OrderStatus {
     DONG_GOI(3,"ĐÃ CHUẨN BỊ XONG"),
     DANG_VANCHUYEN(4,"ĐANG VẬN CHUYỂN"),
     HOAN_TAT(5,"HOÀN TẤT"),
-    HUY_DON(6,"HỦY ĐƠN");
+    HUY_DON(6,"HỦY ĐƠN"),
+    MAIL_CHECK(7,"ĐẶT HÀNG THÀNH CÔNG");
 
     private Integer id;
     private String name;

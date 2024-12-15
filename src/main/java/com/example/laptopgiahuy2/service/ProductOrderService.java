@@ -8,7 +8,7 @@ import java.util.List;
 
 @Service
 public interface ProductOrderService {
-    void saveProductOrder(Integer orderId, OrderRequest orderRequest);
+    void saveProductOrder(Integer orderId, OrderRequest orderRequest) throws Exception;
     List<ProductOrder> getOrderByUserId(Integer userId);
 
     ProductOrder updateOrderStatus(Integer id, String status);

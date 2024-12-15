@@ -7,6 +7,7 @@ import com.example.laptopgiahuy2.model.ProductOrder;
 import com.example.laptopgiahuy2.repository.CartRepository;
 import com.example.laptopgiahuy2.repository.ProductOrderRepository;
 import com.example.laptopgiahuy2.service.ProductOrderService;
+import com.example.laptopgiahuy2.util.CommonUtil;
 import com.example.laptopgiahuy2.util.OrderStatus;
 import org.springframework.stereotype.Service;
 
@@ -19,14 +20,16 @@ import java.util.UUID;
 public class ProductOrderServiceImpl implements ProductOrderService {
     private ProductOrderRepository productOrderRepository;
     private CartRepository cartRepository;
+    private CommonUtil commonUtil;
 
-    public ProductOrderServiceImpl(ProductOrderRepository productOrderRepository, CartRepository cartRepository) {
+    public ProductOrderServiceImpl(ProductOrderRepository productOrderRepository, CartRepository cartRepository, CommonUtil commonUtil) {
         this.productOrderRepository = productOrderRepository;
         this.cartRepository = cartRepository;
+        this.commonUtil = commonUtil;
     }
 
     @Override
-    public void saveProductOrder(Integer userId, OrderRequest orderRequest) {
+    public void saveProductOrder(Integer userId, OrderRequest orderRequest) throws Exception{
         List<Cart> cartList = cartRepository.findByUser_UserId(userId);
         for (Cart cart : cartList) {
             //hang khach dat
@@ -50,7 +53,8 @@ public class ProductOrderServiceImpl implements ProductOrderService {
 
             productOrder.setOrderAddress(orderAddress);
 
-            productOrderRepository.save(productOrder);
+            ProductOrder productOrder1 = productOrderRepository.save(productOrder);
+            commonUtil.sendMailProductOrder(productOrder1,"success");
         }
 
     }

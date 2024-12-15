@@ -4,11 +4,20 @@ import com.example.laptopgiahuy2.model.UserDtls;
 import com.example.laptopgiahuy2.repository.UserDtlsRepository;
 import com.example.laptopgiahuy2.service.UserDtlsService;
 import com.example.laptopgiahuy2.util.AppConstant;
+import jakarta.mail.Multipart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -106,6 +115,38 @@ public class UserDtlsServiceImpl implements UserDtlsService {
     @Override
     public UserDtls updateUserDtls(UserDtls userDtls) {
         return userDtlsRepository.save(userDtls);
+    }
+
+    @Override
+    public UserDtls updateUserProfile(UserDtls userDtls, MultipartFile img) {
+        UserDtls dbUser = userDtlsRepository.findById(userDtls.getUserId()).get();
+
+        if (!img.isEmpty()) {
+            dbUser.setProfileImage(img.getOriginalFilename());
+        }
+
+        if (!ObjectUtils.isEmpty(dbUser)) {
+
+            dbUser.setUserName(userDtls.getUserName());
+            dbUser.setSdt(userDtls.getSdt());
+            dbUser.setDiachi(userDtls.getDiachi());
+            dbUser = userDtlsRepository.save(dbUser);
+        }
+        try {
+            if (!img.isEmpty()) {
+                File saveFile = new ClassPathResource("static/img").getFile();
+
+                Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + "profile_img" + File.separator
+                        + img.getOriginalFilename());
+
+//			System.out.println(path);
+                Files.copy(img.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return dbUser;
     }
 
 }
