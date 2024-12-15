@@ -5,6 +5,10 @@ import com.example.laptopgiahuy2.model.Product;
 import com.example.laptopgiahuy2.repository.ProductRepository;
 import com.example.laptopgiahuy2.service.ProductService;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -105,5 +109,31 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> searchProducts(String keyword) {
         return productRepository.findByTensanphamContainingIgnoreCaseOrDanhMucContainingIgnoreCase(keyword,keyword);
+    }
+
+    @Override
+    public Page<Product> getActiveProductsPagination(Integer pageNo, Integer pageSize,String category) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        Page<Product> pageProducts = null;
+        if (ObjectUtils.isEmpty(category)){
+            pageProducts=productRepository.findByTrangthaiTrue(pageable);
+        }
+        else {
+            pageProducts=productRepository.findByDanhMuc(pageable,category);
+        }
+
+        return pageProducts;
+    }
+
+    @Override
+    public Page<Product> searchProductsPagination(String keyword, Integer pageNo, Integer pageSize) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        return productRepository.findByTensanphamContainingIgnoreCaseOrDanhMucContainingIgnoreCase(keyword,keyword,pageable);
+    }
+
+    @Override
+    public Page<Product> getAllProductsPagination(Integer pageNo, Integer pageSize) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        return productRepository.findAll(pageable);
     }
 }

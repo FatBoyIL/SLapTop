@@ -2,6 +2,7 @@ package com.example.laptopgiahuy2.service;
 
 import com.example.laptopgiahuy2.model.OrderRequest;
 import com.example.laptopgiahuy2.model.ProductOrder;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,4 +15,5 @@ public interface ProductOrderService {
     ProductOrder updateOrderStatus(Integer id, String status);
     List<ProductOrder> getAllOrders();
     ProductOrder getOrderById(String orderId);
+    Page<ProductOrder> getAllOrdersPagination(Integer pageNo, Integer pageSize);
 }

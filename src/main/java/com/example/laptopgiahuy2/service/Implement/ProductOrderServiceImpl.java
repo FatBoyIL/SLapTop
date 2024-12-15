@@ -9,6 +9,9 @@ import com.example.laptopgiahuy2.repository.ProductOrderRepository;
 import com.example.laptopgiahuy2.service.ProductOrderService;
 import com.example.laptopgiahuy2.util.CommonUtil;
 import com.example.laptopgiahuy2.util.OrderStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -87,5 +90,11 @@ public class ProductOrderServiceImpl implements ProductOrderService {
     public ProductOrder getOrderById(String orderId) {
 
         return  productOrderRepository.findByOrderId(orderId);
+    }
+
+    @Override
+    public Page<ProductOrder> getAllOrdersPagination(Integer pageNo, Integer pageSize) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        return productOrderRepository.findAll(pageable);
     }
 }

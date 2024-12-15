@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
 	th:replace="~{base::layout(~{::section})}">
 <head>
-<meta charset="ISO-8859-1">
+<meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
@@ -12,7 +12,7 @@
 				<div class="col-md-3">
 					<div class="card card-sh">
 						<div class="card-header text-center ">
-							<p class="fs-4">Add Category</p>
+							<p class="fs-4">Thêm Danh Mục</p>
 							<th:block th:if="${session.succMsg}">
 								<p class="text-success fw-bold">[[${session.succMsg}]]</p>
 								<th:block th:text="${@commnServiceImpl.removeSessionMessage()}"></th:block>
@@ -28,23 +28,23 @@
 							<form action="/admin/saveCategory" method="post"
 								enctype="multipart/form-data">
 								<div class="mb-3">
-									<label>Enter Category</label> <input type="text" name="tendanhmuc"
+									<label>Tên Danh Mục </label> <input type="text" name="tendanhmuc"
 										class="form-control">
 								</div>
 
 								<div class="mb-3">
-									<label>Status</label>
+									<label>Trạng Thái</label>
 									<div class="form-check">
 										<input class="form-check-input" type="radio" checked
 											   value="true" name="trangThai" id="flexRadioDefault1">
 										<label class="form-check-label" for="flexRadioDefault1">
-											Hoat Dong </label>
+											Hoạt Động </label>
 									</div>
 									<div class="form-check">
 										<input class="form-check-input" type="radio" name="trangThai"
 											   value="false" id="flexRadioDefault2"> <label
 											class="form-check-label" for="flexRadioDefault2">
-										Khong Hoat Dong </label>
+										Không Hoạt Động </label>
 									</div>
 
 
@@ -63,15 +63,15 @@
 
 				<div class="col-md-8">
 					<div class="card card-sh">
-						<div class="card-header text-center fs-4">Category Details</div>
+						<div class="card-header text-center fs-4">Chi Tiết Danh Mục</div>
 						<div class="card-body">
 							<table class="table">
 								<thead>
 									<tr>
 										<th scope="col">Sl No</th>
-										<th scope="col">Danh Muc</th>
-										<th scope="col">Trang Thai</th>
-										<th scope="col">Hinh Anh</th>
+										<th scope="col">Danh Mục</th>
+										<th scope="col">Trạng Thái</th>
+										<th scope="col">Hình Ảnh</th>
 										<th scope="col">Action</th>
 									</tr>
 								</thead>
@@ -79,7 +79,7 @@
 								<tr th:each="cat,c:${categories}">
 									<th scope="row">[[${c.count}]]</th>
 									<td th:text="${cat.tendanhmuc}"></td>
-									<td th:text="${cat.trangThai == true} ? 'HOAT DONG' : 'KHONG HOAT DONG'" />
+									<td th:text="${cat.trangThai == true} ? 'HOẠT ĐỘNG' : 'KHÔNG HOẠT ĐỘNG'" />
 									<td><img
 											th:src="@{'/img/category_img/'+${cat.imageName}}"
 											width="50px" height="50px"></td>
@@ -93,7 +93,38 @@
 
 								</tbody>
 							</table>
+<!--							phan trang-->
+							<div class="row">
+								<div class="col-md-4">Total Category :
+									[[${totalElements}]]</div>
+								<div class="col-md-6">
 
+									<nav aria-label="Page navigation example">
+										<ul class="pagination">
+											<li class="page-item"
+												th:classappend="${isFirst} ? 'disabled':''"><a
+													class="page-link"
+													th:href="@{'/admin/category?pageNo='+${pageNo-1}}"
+													aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+											</a></li>
+
+											<li th:each="i:${#numbers.sequence(1,totalPages)}"
+												class="page-item"
+												th:classappend="${pageNo+1==i}?'active':''" ]]><a
+													class="page-link"
+													th:href="@{'/admin/category?pageNo='+${i-1}}">[[${i}]]</a></li>
+
+											<li class="page-item"
+												th:classappend="${isLast} ? 'disabled':''"><a
+													class="page-link"
+													th:href="@{'/admin/category?pageNo='+${pageNo+1}}"
+													aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+											</a></li>
+										</ul>
+									</nav>
+								</div>
+
+							</div>
 
 						</div>
 					</div>

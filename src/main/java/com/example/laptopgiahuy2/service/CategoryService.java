@@ -1,6 +1,7 @@
 package com.example.laptopgiahuy2.service;
 
 import com.example.laptopgiahuy2.model.Category;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,5 +13,6 @@ public interface CategoryService {
     public Boolean deleteCategory(int id);
     public Category getCategory(int id);
     public List<Category>getCategoryByTrangThai();
+    public Page<Category> getCategoryPagination(Integer pageNo, Integer pageSize);
 
 }

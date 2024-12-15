@@ -2,14 +2,14 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
 	th:replace="~{base::layout(~{::section})}">
 <head>
-<meta charset="ISO-8859-1">
+<meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
 	<section>
 		<div class="container-fluid mt-4 p-3">
 			<div class="row">
-				<p class="text-center fs-3 mt-2">All Products</p>
+				<p class="text-center fs-3 mt-2">Sản Phẩm </p>
 				<th:block th:if="${session.succMsg}">
 					<p class="text-success fw-bold">[[${session.succMsg}]]</p>
 					<th:block th:text="${@commnServiceImpl.removeSessionMessage()}"></th:block>
@@ -27,10 +27,10 @@
 					<form action="/admin/products" method="get">
 						<div class="row">
 							<div class="col">
-								<input type="text" class="form-control " name="ch">
+								<input type="text" class="form-control " name="srch">
 							</div>
 							<div class="col">
-								<button class="btn btn-primary col">Tim Kiem</button>
+								<button class="btn btn-primary col">Tìm Kiếm</button>
 							</div>
 						</div>
 					</form>
@@ -44,16 +44,16 @@
 						<thead class="table-light ">
 							<tr>
 								<th scope="col">Sl No</th>
-								<th scope="col">Hinh Anh</th>
-								<th scope="col">Ten San Pham</th>
-								<th scope="col">Danh Muc</th>
-								<th scope="col">Gia</th>
-								<th scope="col">Gia da giam</th>
-								<th scope="col">Mo ta</th>
-								<th scope="col">Cau Hinh</th>
-								<th scope="col">Bao Hanh</th>
-								<th scope="col">So luong</th>
-								<th scope="col">Trang Thai</th>
+								<th scope="col">Hình Ảnh</th>
+								<th scope="col">Tên Sản Phẩm</th>
+								<th scope="col">Danh Mục</th>
+								<th scope="col">Giá Gốc</th>
+								<th scope="col">Giá Đã Giảm</th>
+								<th scope="col">Mô Tả</th>
+								<th scope="col">Cấu Hình</th>
+								<th scope="col">Bảo Hành(năm)</th>
+								<th scope="col">Số Lượng</th>
+								<th scope="col">Trạng Thái</th>
 								<th scope="col">Action</th>
 							</tr>
 						</thead>
@@ -79,20 +79,48 @@
 								</td>
 								<td th:text="${p.soluong}">
 								</td>
-								<td th:text="${p.trangthai == true} ? 'SAN SANG' : 'CHUA SAN SANG'">
+								<td th:text="${p.trangthai == true} ? 'SẴN SÀNG' : 'CHƯA SẴN SÀNG'">
 								</td>
 
 								<td><a th:href="@{'/admin/editProduct/'+${p.productId}}"
 									class="btn btn-sm btn-primary"><i
-										class="fa-solid fa-pen-to-square"></i>Edit</a> <a
+										class="fa-solid fa-pen-to-square"></i>SỬA</a> <a
 									th:href="@{'/admin/deleteProduct/'+${p.productId}}"
 									class="btn btn-sm btn-danger"><i class="fa-solid fa-trash"></i>
-										Delete</a></td>
+										XÓA</a></td>
 							</tr>
 
 						</tbody>
 					</table>
+					<div class="row">
+						<div class="col-md-4">Total Product : [[${totalElements}]]</div>
+						<div class="col-md-6">
 
+							<nav aria-label="Page navigation example">
+								<ul class="pagination">
+									<li class="page-item"
+										th:classappend="${isFirst} ? 'disabled':''"><a
+											class="page-link"
+											th:href="@{'/admin/products?pageNo='+${pageNo-1}}"
+											aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+									</a></li>
+
+									<li th:each="i:${#numbers.sequence(1,totalPages)}"
+										class="page-item" th:classappend="${pageNo+1==i}?'active':''"
+										]]><a class="page-link"
+											  th:href="@{'/admin/products?pageNo='+${i-1}}">[[${i}]]</a></li>
+
+									<li class="page-item"
+										th:classappend="${isLast} ? 'disabled':''"><a
+											class="page-link"
+											th:href="@{'/admin/products?pageNo='+${pageNo+1}}"
+											aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+									</a></li>
+								</ul>
+							</nav>
+						</div>
+
+					</div>
 				</div>
 			</div>
 		</div>

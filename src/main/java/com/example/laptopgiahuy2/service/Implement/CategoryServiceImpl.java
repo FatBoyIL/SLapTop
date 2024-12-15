@@ -4,6 +4,9 @@ package com.example.laptopgiahuy2.service.Implement;
 import com.example.laptopgiahuy2.model.Category;
 import com.example.laptopgiahuy2.repository.CategoryRepository;
 import com.example.laptopgiahuy2.service.CategoryService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -54,6 +57,12 @@ public class CategoryServiceImpl implements CategoryService {
     public List<Category> getCategoryByTrangThai() {
         List<Category> categoryList = categoryRepository.findCategoryByTrangThaiTrue();
         return categoryList;
+    }
+
+    @Override
+    public Page<Category> getCategoryPagination(Integer pageNo, Integer pageSize) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        return categoryRepository.findAll(pageable);
     }
 
 

@@ -8,11 +8,13 @@ import com.example.laptopgiahuy2.service.CategoryService;
 import com.example.laptopgiahuy2.service.ProductService;
 import com.example.laptopgiahuy2.service.UserDtlsService;
 import com.example.laptopgiahuy2.util.CommonUtil;
+import io.micrometer.common.util.StringUtils;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.domain.Page;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -74,11 +76,27 @@ public class HomeController {
         return "register";
     }
     @GetMapping("/products")
-    public String products(Model m, @RequestParam(value = "category",defaultValue = "") String category) {
-        List<Product> products = productService.getActiveProducts(category);
-        List<Category> categories = categoryService.getCategoryByTrangThai();
-        m.addAttribute("products", products);
+    public String products(Model m, @RequestParam(value = "category",defaultValue = "") String category,
+                           @RequestParam(name = "pageNo",defaultValue = "0")Integer pageNo,
+                           @RequestParam(name = "pageSize",defaultValue = "8")Integer pageSize) {
+        List<Category> categories = categoryService.getAllCategories();
+        m.addAttribute("paramValue", category);
         m.addAttribute("categories", categories);
+
+//		List<Product> products = productService.getAllActiveProducts(category);
+//		m.addAttribute("products", products);
+        Page<Product> page = null;
+        page = productService.getActiveProductsPagination(pageNo, pageSize, category);
+        List<Product> products = page.getContent();
+        m.addAttribute("products", products);
+        m.addAttribute("productsSize", products.size());
+
+        m.addAttribute("pageNo", page.getNumber());
+        m.addAttribute("pageSize", pageSize);
+        m.addAttribute("totalElements", page.getTotalElements());
+        m.addAttribute("totalPages", page.getTotalPages());
+        m.addAttribute("isFirst", page.isFirst());
+        m.addAttribute("isLast", page.isLast());
         return "product";
     }
     @GetMapping("/product/{id}")
