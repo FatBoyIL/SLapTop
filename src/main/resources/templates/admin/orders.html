@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{base::layout(~{::section})}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<section>
+		<div class="container-fluid mt-5 p-1">
+			<div class="row">
+				<p class="text-center fs-3 mt-2">All Orders</p>
+				<hr>
+				<a href="/admin/" class="text-decoration-none"><i
+					class="fa-solid fa-arrow-left"></i> Back</a>
+				<th:block th:if="${session.succMsg}">
+					<p class="text-success fw-bold text-center">[[${session.succMsg}]]</p>
+					<th:block th:text="${@commnServiceImpl.removeSessionMessage()}"></th:block>
+				</th:block>
+
+				<th:block th:if="${session.errorMsg}">
+					<p class="text-danger fw-bold text-center">[[${session.errorMsg}]]</p>
+					<th:block th:text="${@commnServiceImpl.removeSessionMessage()}"></th:block>
+				</th:block>
+				<div class="col-md-4 p-4">
+
+					<form action="/admin/search-order" method="get">
+						<div class="row">
+							<div class="col">
+								<input type="text" class="form-control " name="orderId"
+									placeholder="Enter order id">
+							</div>
+							<div class="col">
+								<button class="btn btn-primary col">Search</button>
+							</div>
+						</div>
+					</form>
+
+				</div>
+				<div class="col-md-12 ps-4 pe-4">
+
+					<table class="table table-bordered card-sh">
+						<thead class="table-light">
+							<tr>
+								<th scope="col">Order Id</th>
+								<th scope="col">Deliver Details</th>
+								<th scope="col">Date</th>
+								<th scope="col">Product Details</th>
+								<th scope="col">Price</th>
+								<th scope="col">Status</th>
+								<th scope="col">Action</th>
+							</tr>
+						</thead>
+						<tbody>
+
+									<tr th:each="order : ${orders}" >
+
+										<th scope="row">[[${order.orderId}]]</th>
+										<td>Name : [[${order.orderAddress.guestName}]]<br> Email :
+											[[${order.orderAddress.email}]] <br> SDT:
+											[[${order.orderAddress.sdt}]] <br> Địa Chỉ :
+											[[${order.orderAddress.address}]] <br> Ghi Chú :
+											[[${order.orderAddress.ghichu}]]
+										</td>
+										<td>[[${order.orderDate}]]</td>
+										<td>[[${order.product.tensanpham}]]</td>
+										<td>Quantity : [[${order.quantity}]] <br>Price :
+											[[${order.price}]] <br>Total Price
+											:[[${order.quantity * order.price}]]
+										</td>
+										<td>[[${order.status}]]</td>
+										<td>
+											<form action="/admin/update-order-status" method="post">
+												<div class="row">
+													<div class="col">
+														<select class="form-control" name="st">
+															<option>--select--</option>
+															<option value="1">ĐANG XỬ LÝ</option>
+															<option value="2">ĐẶT HÀNG</option>
+															<option value="3">ĐÃ CHUẨN BỊ XONG</option>
+															<option value="4">ĐANG VẬN CHUYỂN</option>
+															<option value="5">HOÀN TẤT</option>
+															<option value="6">HỦY ĐƠN</option>
+														</select>
+													</div>
+													<input th:value="${order.id}" name="id" type="hidden">
+													<div class="col">
+														<th:block
+															th:if="${order.status=='HỦY ĐƠN' || order.status=='HOÀN TẤT'}">
+															<button class="btn btn-primary btn-sm col disabled">Update</button>
+														</th:block>
+														<th:block
+															th:unless="${order.status=='HỦY ĐƠN' || order.status=='HOÀN TẤT'}">
+															<button class="btn btn-sm btn-primary ">Update</button>
+														</th:block>
+
+
+													</div>
+												</div>
+											</form>
+										</td>
+									</tr>
+
+						</tbody>
+					</table>
+
+				</div>
+			</div>
+
+		</div>
+	</section>
+</body>
+</html>

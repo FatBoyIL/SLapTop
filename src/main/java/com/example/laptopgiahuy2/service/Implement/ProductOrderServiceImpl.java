@@ -10,8 +10,10 @@ import com.example.laptopgiahuy2.service.ProductOrderService;
 import com.example.laptopgiahuy2.util.OrderStatus;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 @Service
 public class ProductOrderServiceImpl implements ProductOrderService {
@@ -30,7 +32,7 @@ public class ProductOrderServiceImpl implements ProductOrderService {
             //hang khach dat
             ProductOrder productOrder = new ProductOrder();
             productOrder.setOrderId("DH"+ UUID.randomUUID().toString());
-            productOrder.setOrderDate(new Date());
+            productOrder.setOrderDate(LocalDate.now());
             productOrder.setProduct(cart.getProduct());
             productOrder.setPrice(cart.getProduct().getGiaSale());
             productOrder.setUserDtls(cart.getUser());
@@ -51,5 +53,29 @@ public class ProductOrderServiceImpl implements ProductOrderService {
             productOrderRepository.save(productOrder);
         }
 
+    }
+
+    @Override
+    public List<ProductOrder> getOrderByUserId(Integer userId) {
+        List<ProductOrder> orders = productOrderRepository.findByUserDtls_UserId(userId);
+        return orders;
+    }
+
+    @Override
+    public ProductOrder updateOrderStatus(Integer id, String status) {
+        Optional<ProductOrder> findById = productOrderRepository.findById(id);
+        if (findById.isPresent()) {
+            ProductOrder productOrder = findById.get();
+            productOrder.setStatus(status);
+            ProductOrder updateOrder = productOrderRepository.save(productOrder);
+            return updateOrder;
+        }
+        return null;
+    }
+
+    @Override
+    public List<ProductOrder> getAllOrders() {
+        List<ProductOrder> orders = productOrderRepository.findAll();
+        return orders   ;
     }
 }

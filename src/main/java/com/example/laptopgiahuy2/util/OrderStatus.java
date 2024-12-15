@@ -1,11 +1,12 @@
 package com.example.laptopgiahuy2.util;
 
 public enum OrderStatus {
-    DANG_XULY(1,"DANG XU LY"),
-    DAT_HANG(2,"DAT HANG"),
-    DONG_GOI(3,"DONG GOI SAN PHAM"),
-    DANG_VANCHUYEN(4,"DANG VAN CHUYEN"),
-    HOAN_TAT(5,"HOAN TAT DON HANG");
+    DANG_XULY(1,"ĐANG XỬ LÝ"),
+    DAT_HANG(2,"ĐẶT HÀNG"),
+    DONG_GOI(3,"ĐÃ CHUẨN BỊ XONG"),
+    DANG_VANCHUYEN(4,"ĐANG VẬN CHUYỂN"),
+    HOAN_TAT(5,"HOÀN TẤT"),
+    HUY_DON(6,"HỦY ĐƠN");
 
     private Integer id;
     private String name;

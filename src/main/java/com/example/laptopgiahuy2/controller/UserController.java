@@ -1,14 +1,12 @@
 package com.example.laptopgiahuy2.controller;
 
-import com.example.laptopgiahuy2.model.Cart;
-import com.example.laptopgiahuy2.model.Category;
-import com.example.laptopgiahuy2.model.OrderRequest;
-import com.example.laptopgiahuy2.model.UserDtls;
+import com.example.laptopgiahuy2.model.*;
 import com.example.laptopgiahuy2.repository.CartRepository;
 import com.example.laptopgiahuy2.service.CartService;
 import com.example.laptopgiahuy2.service.CategoryService;
 import com.example.laptopgiahuy2.service.ProductOrderService;
 import com.example.laptopgiahuy2.service.UserDtlsService;
+import com.example.laptopgiahuy2.util.OrderStatus;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -88,7 +86,8 @@ public class UserController {
         m.addAttribute("carts", carts);
         if (carts.size() > 0) {
             Integer orderPrice = carts.get(carts.size() - 1).getTotalOrderPrice();
-            Integer totalOrderPrice = (int) Math.round((carts.get(carts.size() - 1).getTotalOrderPrice() + 50000) * 0.1);
+            double vat = (carts.get(carts.size() - 1).getTotalOrderPrice()) * 0.1;
+            Integer totalOrderPrice = (int) Math.round((carts.get(carts.size() - 1).getTotalOrderPrice() + 50000) + vat );
             m.addAttribute("orderPrice", orderPrice);
             m.addAttribute("totalOrderPrice", totalOrderPrice);
         }
@@ -103,4 +102,30 @@ public class UserController {
 
         return "/user/success";
     }
+    @GetMapping("/user-orders")
+    public String myOrder(Model model,Principal principal) {
+        UserDtls userDtls = getLoggedUser(principal);
+       List<ProductOrder> productOrders= productOrderService.getOrderByUserId(userDtls.getUserId());
+        model.addAttribute("productOrders", productOrders);
+        return "/user/my_orders";
+    }
+    @GetMapping("/update-status")
+    public String updateOrderStatus(@RequestParam Integer id, @RequestParam Integer st, HttpSession session) {
+
+        OrderStatus[] values = OrderStatus.values();
+        String status = null;
+        for (OrderStatus orderSt : values) {
+            if (orderSt.getId().equals(st)) {
+                status = orderSt.getName();
+            }
+        }
+        ProductOrder updateOrder = productOrderService.updateOrderStatus(id, status);
+        if (!ObjectUtils.isEmpty(updateOrder)) {
+            session.setAttribute("succMsg", "Hủy Hàng Thành Công");
+        } else {
+            session.setAttribute("errorMsg", "Không Hủy Hàng Được");
+        }
+        return "redirect:/user/user-orders";
+    }
+
 }

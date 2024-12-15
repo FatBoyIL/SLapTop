@@ -1,11 +1,11 @@
 package com.example.laptopgiahuy2.controller;
 
-import com.example.laptopgiahuy2.model.Category;
-import com.example.laptopgiahuy2.model.Product;
-import com.example.laptopgiahuy2.model.UserDtls;
+import com.example.laptopgiahuy2.model.*;
 import com.example.laptopgiahuy2.service.CategoryService;
+import com.example.laptopgiahuy2.service.ProductOrderService;
 import com.example.laptopgiahuy2.service.ProductService;
 import com.example.laptopgiahuy2.service.UserDtlsService;
+import com.example.laptopgiahuy2.util.OrderStatus;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
@@ -29,10 +29,12 @@ public class AdminController {
     private CategoryService categoryService;
     private ProductService productService;
     private UserDtlsService userDtlsService;
-    public AdminController(CategoryService categoryService, ProductService productService, UserDtlsService userDtlsService) {
+    private ProductOrderService productOrderService;
+    public AdminController(CategoryService categoryService, ProductService productService, UserDtlsService userDtlsService, ProductOrderService productOrderService) {
         this.categoryService = categoryService;
         this.productService = productService;
         this.userDtlsService = userDtlsService;
+        this.productOrderService = productOrderService;
     }
     @ModelAttribute
     public void getUserDetails(Principal principal, Model model) {
@@ -213,13 +215,39 @@ public class AdminController {
     @GetMapping("/updateSts")
     public String updateUserDtlsActive(@RequestParam Boolean active,@RequestParam Integer id, HttpSession session) {
         Boolean f = userDtlsService.updateUserDtlsActicve(id,active);
-//        if (f){
-//
-//            session.setAttribute("succMsg", "Mo Khoa User Thanh Cong");
-//        }
-//        else {
-//            session.setAttribute("errorMsg", "Khong Mo Khoa Duoc");
-//        }
+        if (f){
+            session.setAttribute("succMsg", "Mở Khóa User Thành Công");
+        }
+        else {
+            session.setAttribute("errorMsg", "Không Thể Mở Khóa");
+        }
         return "redirect:/admin/users";
+    }
+    @GetMapping("/orders")
+    public String loadOrders(Model model) {
+        List<ProductOrder> orders = productOrderService.getAllOrders();
+        model.addAttribute("orders", orders);
+        return "admin/orders";
+    }
+    @PostMapping("/update-order-status")
+    public String updateOrderStatus(@RequestParam Integer id, @RequestParam Integer st, HttpSession session) {
+
+        OrderStatus[] values = OrderStatus.values();
+        String status = null;
+
+        for (OrderStatus orderSt : values) {
+            if (orderSt.getId().equals(st)) {
+                status = orderSt.getName();
+            }
+        }
+
+        ProductOrder updateOrder = productOrderService.updateOrderStatus(id, status);
+
+        if (!ObjectUtils.isEmpty(updateOrder)) {
+            session.setAttribute("succMsg", "Status Updated");
+        } else {
+            session.setAttribute("errorMsg", "status not updated");
+        }
+        return "redirect:/admin/orders";
     }
 }
