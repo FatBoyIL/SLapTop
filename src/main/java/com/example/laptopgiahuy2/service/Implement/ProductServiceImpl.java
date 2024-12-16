@@ -59,7 +59,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product updateProduct(Product product, MultipartFile image) {
         Product dbProduct = getProductById(product.getProductId());
-        String imageName= image.isEmpty() ? "default.jpg" : image.getOriginalFilename();
+        String imageName= image.isEmpty() ? dbProduct.getHinhanh()  : image.getOriginalFilename();
         dbProduct.setTensanpham(product.getTensanpham());
         dbProduct.setSoluong(product.getSoluong());
         dbProduct.setHinhanh(imageName);
@@ -108,7 +108,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> searchProducts(String keyword) {
-        return productRepository.findByTensanphamContainingIgnoreCaseOrDanhMucContainingIgnoreCase(keyword,keyword);
+        return productRepository.findByTensanphamIgnoreCaseOrDanhMucContainingIgnoreCase(keyword,keyword);
     }
 
     @Override
@@ -135,5 +135,21 @@ public class ProductServiceImpl implements ProductService {
     public Page<Product> getAllProductsPagination(Integer pageNo, Integer pageSize) {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
         return productRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<Product> searchActiveProductPagination(Integer pageNo, Integer pageSize, String category, String ch) {
+        Page<Product> pageProduct = null;
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+
+        pageProduct = productRepository.findByTrangthaiTrueAndTensanphamContainingIgnoreCaseOrDanhMucContainingIgnoreCase(ch,
+                ch, pageable);
+
+//		if (ObjectUtils.isEmpty(category)) {
+//			pageProduct = productRepository.findByIsActiveTrue(pageable);
+//		} else {
+//			pageProduct = productRepository.findByCategory(pageable, category);
+//		}
+        return pageProduct;
     }
 }

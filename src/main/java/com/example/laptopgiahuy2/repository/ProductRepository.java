@@ -11,9 +11,9 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
      List<Product> findByTrangthaiTrue();
 
     List<Product> findByDanhMuc(String danhMuc);
-    List<Product> findByTensanphamContainingIgnoreCaseOrDanhMucContainingIgnoreCase(String ch1,String ch2);
+    List<Product>findByTensanphamIgnoreCaseOrDanhMucContainingIgnoreCase(String ch, String ch2);
     Page<Product> findByTrangthaiTrue(Pageable pageable);
-
     Page<Product> findByDanhMuc(Pageable pageable,String category);
     Page<Product> findByTensanphamContainingIgnoreCaseOrDanhMucContainingIgnoreCase(String ch1,String ch2,Pageable ch3);
+    Page<Product> findByTrangthaiTrueAndTensanphamContainingIgnoreCaseOrDanhMucContainingIgnoreCase(String ch1,String ch2,Pageable ch3);
 }

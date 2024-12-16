@@ -19,7 +19,8 @@
 </head>
 <body>
 <!--    NAVBAR-->
-<nav class="navbar navbar-expand-lg  bg-primary fixed-top navbar-dark">
+<nav class="navbar navbar-expand-lg  bg-primary fixed-top navbar-dark" style="background: rgb(34,193,195);
+background: linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%);">
     <div class="container-fluid">
         <a class="navbar-brand" href="#"><i
                 class="fa-solid fa-cart-shopping"></i> LapTop Huy Beo</a>
@@ -56,7 +57,7 @@
                     <li class="nav-item"><a class="nav-link active"
                                             aria-current="page" href="/register">Đăng Ký</a></li>
                     <li class="nav-item"><a class="nav-link active"
-                                            aria-current="page" href="#">ADMIN</a></li>
+                                            aria-current="page" href="/admin">ADMIN</a></li>
                 </th:block>
                 <th:block th:if="${userDtls!=null}">
                     <li class="nav-item"><a class="nav-link active"
@@ -88,10 +89,56 @@
     </div>
 
 <!-- Start Footer -->
-<div class="container-fluid p-1 bg-primary text-center text-white"
-     style="margin-top: 250px">
-    <p>ecom.com</p>
+<!-- Start Footer -->
+<div class="container-fluid p-4 bg-primary text-white" style="padding-top: 50px;background: rgb(253,121,45);
+background: linear-gradient(0deg, rgba(253,121,45,1) 100%, rgba(34,193,195,1) 100%);">
+    <div class="row">
+        <!-- About Us -->
+        <div class="col-md-3">
+            <h5>Về Chúng Tôi</h5>
+            <ul class="list-unstyled">
+                <li><a href="#" class="text-white">Giới thiệu</a></li>
+                <li><a href="#" class="text-white">Dịch vụ</a></li>
+                <li><a href="#" class="text-white">Tin tức</a></li>
+                <li><a href="#" class="text-white">Liên hệ tư vấn</a></li>
+            </ul>
+        </div>
+
+        <!-- Policies -->
+        <div class="col-md-3">
+            <h5>Chính Sách</h5>
+            <ul class="list-unstyled">
+                <li><a href="#" class="text-white">Chính sách bảo hành</a></li>
+                <li><a href="#" class="text-white">Chính sách bảo mật</a></li>
+                <li><a href="#" class="text-white">Chính sách Đổi/Trả hàng</a></li>
+                <li><a href="#" class="text-white">Chính sách thanh toán</a></li>
+            </ul>
+        </div>
+
+        <!-- Contact Information -->
+        <div class="col-md-3">
+            <h5>Liên Hệ</h5>
+            <p>LAPTOPHUYBEO.VN<br>
+                Lô B05 KDC Đường Sắt, Đường Lý Thường Kiệt, KP.Thống Nhất, Dĩ An, Bình Dương<br>
+                Email: <a href="mailto:diantabshop@gmail.com" class="text-white">diantabshop@gmail.com</a><br>
+                Phone: 0849.44.54.64 - 0989.106.106</p>
+        </div>
+
+        <!-- Connect with Us -->
+        <div class="col-md-3">
+            <h5>Kết Nối Với Chúng Tôi</h5>
+            <ul class="list-unstyled">
+                <li><a href="#" class="text-white">Phương thức thanh toán</a></li>
+                <!-- Add social media links here -->
+            </ul>
+        </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <p>&copy; 2024 LAPTOPSHOP.VN</p>
+    </div>
 </div>
+<!-- End Footer -->
 <!-- End Footer  -->
 <!-- Jquery Validation Library  -->
 <script

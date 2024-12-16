@@ -63,10 +63,7 @@ public class HomeController {
         this.cartService = cartService;
     }
 
-    @GetMapping("/")
-    public String home() {
-        return "index";
-    }
+
     @GetMapping("/signing")
     public String login() {
         return "login";
@@ -75,10 +72,10 @@ public class HomeController {
     public String register() {
         return "register";
     }
-    @GetMapping("/products")
-    public String products(Model m, @RequestParam(value = "category",defaultValue = "") String category,
-                           @RequestParam(name = "pageNo",defaultValue = "0")Integer pageNo,
-                           @RequestParam(name = "pageSize",defaultValue = "8")Integer pageSize) {
+    @GetMapping("/")
+    public String home(Model m, @RequestParam(value = "category",defaultValue = "") String category,
+                       @RequestParam(name = "pageNo",defaultValue = "0")Integer pageNo,
+                       @RequestParam(name = "pageSize",defaultValue = "8")Integer pageSize) {
         List<Category> categories = categoryService.getAllCategories();
         m.addAttribute("paramValue", category);
         m.addAttribute("categories", categories);
@@ -97,6 +94,37 @@ public class HomeController {
         m.addAttribute("totalPages", page.getTotalPages());
         m.addAttribute("isFirst", page.isFirst());
         m.addAttribute("isLast", page.isLast());
+        return "product";
+    }
+    @GetMapping("/products")
+    public String products(Model m, @RequestParam(value = "category", defaultValue = "") String category,
+                           @RequestParam(name = "pageNo", defaultValue = "0") Integer pageNo,
+                           @RequestParam(name = "pageSize", defaultValue = "12") Integer pageSize,
+                           @RequestParam(defaultValue = "") String ch) {
+        List<Category> categories = categoryService.getAllCategories();
+        m.addAttribute("paramValue", category);
+        m.addAttribute("categories", categories);
+
+//		List<Product> products = productService.getAllActiveProducts(category);
+//		m.addAttribute("products", products);
+        Page<Product> page = null;
+        if (StringUtils.isEmpty(ch)) {
+            page = productService.getActiveProductsPagination(pageNo, pageSize, category);
+        } else {
+            page = productService.searchActiveProductPagination(pageNo, pageSize, category, ch);
+        }
+
+        List<Product> products = page.getContent();
+        m.addAttribute("products", products);
+        m.addAttribute("productsSize", products.size());
+
+        m.addAttribute("pageNo", page.getNumber());
+        m.addAttribute("pageSize", pageSize);
+        m.addAttribute("totalElements", page.getTotalElements());
+        m.addAttribute("totalPages", page.getTotalPages());
+        m.addAttribute("isFirst", page.isFirst());
+        m.addAttribute("isLast", page.isLast());
+
         return "product";
     }
     @GetMapping("/product/{id}")
@@ -182,11 +210,12 @@ public class HomeController {
 
     }
     @GetMapping("/search")
-    public String search(@RequestParam String keyword, Model model) {
-        List<Product> searchP = productService.searchProducts(keyword);
-        model.addAttribute("products", searchP);
+    public String searchProduct(@RequestParam String ch, Model m) {
+        List<Product> searchProducts = productService.searchProducts(ch);
+        m.addAttribute("products", searchProducts);
         List<Category> categories = categoryService.getAllCategories();
-        model.addAttribute("categories", categories);
+        m.addAttribute("categories", categories);
         return "product";
+
     }
 }

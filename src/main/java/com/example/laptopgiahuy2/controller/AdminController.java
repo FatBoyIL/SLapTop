@@ -221,14 +221,14 @@ public class AdminController {
     @PostMapping("/updateProduct")
     public String updateProduct(@ModelAttribute Product product,@RequestParam("file") MultipartFile image,HttpSession session) {
         if (product.getSale()<0 || product.getSale()>90){
-            session.setAttribute("errorMsg", "Ma giam gia loi");
+            session.setAttribute("errorMsg", "Mã Giảm Lỗi");
         }else {
             Product savedProduct = productService.updateProduct(product, image);
             if (!ObjectUtils.isEmpty(savedProduct)) {
-                session.setAttribute("succMsg", "Sua san pham thanh cong");
+                session.setAttribute("succMsg", "Sửa sản phẩm thành công");
             }
             else {
-                session.setAttribute("errorMsg", "Khong sua duoc");
+                session.setAttribute("errorMsg", "Không Sửa Được Sản Phẩm");
             }
 
         }

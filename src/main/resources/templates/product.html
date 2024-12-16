@@ -9,12 +9,13 @@
 <body>
 <section>
 
-    <div class="container-fluid bg-primary p-4 mt-5 ">
+    <div class="container-fluid bg-primary p-4 mt-5 " style="background: rgb(34,193,195);
+background: linear-gradient(0deg, rgba(34,193,195,1) 100%, rgba(253,187,45,1) 100%);">
         <div class="row">
             <div class="col-md-8 offset-md-2">
-                <form action="search" method="get">
+                <form action="/products" method="get">
                     <div class="input-group">
-                        <input type="text" class="form-control" name="keyword">
+                        <input type="text" class="form-control" name="ch">
                         <button class="btn btn-light text-dark ms-3 col-md-2">
                             <i class="fa-solid fa-magnifying-glass"></i> Tìm
                         </button>
@@ -24,35 +25,66 @@
         </div>
 
     </div>
+    <!-- Start Slider  -->
 
+    <div id="carouselExample" class="carousel slide" style="margin-top: 3%;width: 80%;margin-left: 50%;transform: translateX(-50%)">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="img/ecom1.jpg" class="d-block w-100" alt="..."
+                     height="350px">
+            </div>
+            <div class="carousel-item">
+                <img src="img/ecom3.png" class="d-block w-100" alt="..."
+                     height="350px">
+            </div>
+            <div class="carousel-item">
+                <img src="img/ecom2.jpg" class="d-block w-100" alt="..."
+                     height="350px">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button"
+                data-bs-target="#carouselExample" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button"
+                data-bs-target="#carouselExample" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
 
-    <div class="container-fluid mt-1">
-        <div class="row">
+    <!-- End Slider  -->
 
-            <div class="col-md-2 p-0">
+    <div class="col-md-1 p-0" style="position: fixed;top: 15%;z-index: 10">
 
-                <div class="card shadow-sm p-0 mb-5 bg-body-tertiary rounded">
-                    <div class="card-body">
-                        <div class="list-group">
-                            <p class="fs-5">Category</p>
-                            <a href="/products"
-                               th:classappend="${paramValue==''} ? 'active':''"
-                               class="list-group-item list-group-item-action"
-                               aria-current="true"> All </a> <a th:each="c:${categories}"
-                                                                th:href="@{'/products?category='+${c.getTendanhmuc()}}"
-                                                                th:classappend="${paramValue == c.getTendanhmuc()} ? 'active':''"
-                                                                class="list-group-item list-group-item-action">[[${c.getTendanhmuc}]]</a>
+        <div class="card shadow-sm p-0 mb-3 bg-body-tertiary rounded">
+            <div class="card-body">
+                <div class="list-group">
+                    <p class="fs-5">Danh Mục</p>
+                    <a href="/products"
+                       th:classappend="${paramValue==''} ? 'active':''"
+                       class="list-group-item list-group-item-action"
+                       aria-current="true"> All </a> <a th:each="c:${categories}"
+                                                        th:href="@{'/products?category='+${c.getTendanhmuc()}}"
+                                                        th:classappend="${paramValue == c.getTendanhmuc()} ? 'active':''"
+                                                        class="list-group-item list-group-item-action">[[${c.getTendanhmuc}]]</a>
 
-                        </div>
-                    </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+
+    <div class="container-fluid mt-1" style="padding-top: 30px;margin-left: 45%;transform: translateX(-35%);padding-bottom: 30px;">
+        <div class="row" >
             <div class="col-md-10">
                 <div class="card">
-                    <div class="card-body">
+                    <div class="card-body" style="background: rgb(63,94,251);
+background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%); gap: 10px;border-radius: 0.5rem;">
                         <p class="fs-3 text-center">Sản phẩm</p>
                         <div class="row">
-                        <th:block th:if="${productsSize}">
+                        <th:block th:if="${productsSize>0}">
                             <div class="col-md-3"  th:each="p,c:${products}">
                                 <div class="card">
                                     <button type="button" class="btn btn-warning" style="width: fit-content">[[${p.sale}]]%</button>
@@ -74,8 +106,44 @@
 
                                             <a class="btn btn-primary col-md-6 offset-md-3" th:href="@{'/product/'+${p.productId}}">Chi Tiet</a>
                                         </div>
+
+
                                     </div>
+
                                 </div>
+
+
+                            </div>
+                            <!--               Phan trang-->
+                            <div class="row" style="">
+
+                                <div class="col-md-2" >
+                                    <th:block th:if="${productsSize>0}">
+                                        <nav aria-label="Page navigation example">
+                                            <ul class="pagination">
+                                                <li class="page-item"
+                                                    th:classappend="${isFirst} ? 'disabled':''"><a
+                                                        class="page-link"
+                                                        th:href="@{'/products?pageNo='+${pageNo-1}}"
+                                                        aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+                                                </a></li>
+
+                                                <li th:each="i:${#numbers.sequence(1,totalPages)}"
+                                                    class="page-item" th:classappend="${pageNo+1==i}?'active':''"
+                                                    ]]><a class="page-link"
+                                                          th:href="@{'/products?pageNo='+${i-1}}">[[${i}]]</a></li>
+
+                                                <li class="page-item"
+                                                    th:classappend="${isLast} ? 'disabled':''"><a
+                                                        class="page-link"
+                                                        th:href="@{'/products?pageNo='+${pageNo+1}}"
+                                                        aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+                                                </a></li>
+                                            </ul>
+                                        </nav>
+                                    </th:block>
+                                </div>
+
                             </div>
                         </th:block>
                             <th:block th:unless="${productsSize>0}">
@@ -85,38 +153,11 @@
 
                     </div>
                 </div>
-<!--               Phan trang-->
-                <div class="row">
-                    <div class="col-md-4">Total Products : [[${totalElements}]]</div>
-                    <div class="col-md-6">
-                        <th:block th:if="${productsSize>0}">
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination">
-                                    <li class="page-item"
-                                        th:classappend="${isFirst} ? 'disabled':''"><a
-                                            class="page-link"
-                                            th:href="@{'/products?pageNo='+${pageNo-1}}"
-                                            aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-                                    </a></li>
 
-                                    <li th:each="i:${#numbers.sequence(1,totalPages)}"
-                                        class="page-item" th:classappend="${pageNo+1==i}?'active':''"
-                                        ]]><a class="page-link"
-                                              th:href="@{'/products?pageNo='+${i-1}}">[[${i}]]</a></li>
 
-                                    <li class="page-item"
-                                        th:classappend="${isLast} ? 'disabled':''"><a
-                                            class="page-link"
-                                            th:href="@{'/products?pageNo='+${pageNo+1}}"
-                                            aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-                                    </a></li>
-                                </ul>
-                            </nav>
-                        </th:block>
-                    </div>
-                    </th:block>
-                </div>
             </div>
+
+
         </div>
     </div>
 

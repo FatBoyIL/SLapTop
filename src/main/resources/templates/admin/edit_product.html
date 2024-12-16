@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
 	th:replace="~{base::layout(~{::section})}">
 <head>
-<meta charset="ISO-8859-1">
+<meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
@@ -12,7 +12,7 @@
 				<div class="col-md-8 offset-md-2">
 					<div class="card card-sh">
 						<div class="card-header text-center ">
-							<p class="fs-4">Sua san pham</p>
+							<p class="fs-4">Sửa Sản Phẩm</p>
 
 							<th:block th:if="${session.succMsg}">
 								<p class="text-success fw-bold">[[${session.succMsg}]]</p>
@@ -30,56 +30,56 @@
 								enctype="multipart/form-data">
 								<input type="hidden" name="productId" th:value="${product.productId}">
 								<div class="mb-3">
-									<label>Ten San Pham</label> <input type="text" name="tensanpham"
+									<label>Tên Sản Phẩm</label> <input type="text" name="tensanpham"
 										th:value="${product.tensanpham}" class="form-control">
 								</div>
 
 								<div class="mb-3">
-									<label>Mo ta</label>
+									<label>Mô Tả</label>
 									<textarea rows="3" cols="" class="form-control"
 										name="mota" th:text="${product.mota}"></textarea>
 								</div>
 								<div class="mb-3">
-									<label>Cau hinh</label>
+									<label>Cấu Hình</label>
 									<textarea rows="3" cols="" class="form-control"
 											  name="cauhinh" th:text="${product.cauhinh}"></textarea>
 								</div>
 								<div class="row">
 									<div class="mb-3 col">
-										<label>Danh Muc</label> <select class="form-control"
+										<label>Danh Mục</label> <select class="form-control"
 											name="DanhMuc">
 										<option>[[${product.danhMuc}]]</option>
 										<option th:each="c:${category}" >${c.tendanhmuc}"</option>
 										</select>
 									</div>
 									<div class="mb-3 col">
-										<label>Gia</label> <input type="number" name="gia"
+										<label>Giá</label> <input type="number" name="gia"
 											th:value="${product.gia}" class="form-control">
 									</div>
 									<div class="mb-3 col">
-										<label>% Giam</label> <input type="number" name="sale"
+										<label>% Giảm</label> <input type="number" name="sale"
 																		  th:value="${product.sale}" class="form-control">
 									</div>
 									<div class="mb-3 col">
-										<label>Gia Da Giam</label> <input type="number" name="giaSale" readonly
+										<label>Giá Đã Giảm</label> <input type="number" name="giaSale" readonly
 																		  th:value="${product.giaSale}" class="form-control">
 									</div>
 								</div>
 
 								<div class="mb-3">
-									<label>Status</label>
+									<label>Trạng Thái</label>
 
 									<div class="form-check">
 										<input class="form-check-input" type="radio" th:checked="${product.trangthai==true}"
 											value="true" name="trangthai" id="flexRadioDefault1">
 										<label class="form-check-label" for="flexRadioDefault1">
-											HOAT DONG </label>
+											HOẠT ĐỘNG </label>
 									</div>
 									<div class="form-check">
 										<input class="form-check-input" type="radio" name="trangthai" th:checked="${product.trangthai==false}"
 											value="false" id="flexRadioDefault2"> <label
 											class="form-check-label" for="flexRadioDefault2">
-											KHONG HOAT DONG </label>
+											KHÔNG HOẠT ĐỘNG</label>
 									</div>
 
 								</div>
@@ -87,12 +87,15 @@
 								<div class="row">
 
 									<div class="mb-3 col">
-										<label>Enter Stock</label> <input type="text" name="soluong"
+										<label>Số Lượng</label> <input type="text" name="soluong"
 											th:value="${product.soluong}" class="form-control">
 									</div>
-
 									<div class="mb-3 col">
-										<label>Upload Image</label> <input type="file" name="file"
+										<label>Số Năm Bảo Hành</label> <input type="number" name="baohanh"
+																	 th:value="${product.baohanh}" class="form-control">
+									</div>
+									<div class="mb-3 col">
+										<label>Hình Ảnh</label> <input type="file" name="file"
 											class="form-control">
 									</div>
 
