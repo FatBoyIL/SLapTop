@@ -7,6 +7,7 @@ import com.example.laptopgiahuy2.util.CommonUtil;
 import com.example.laptopgiahuy2.util.OrderStatus;
 import jakarta.mail.MessagingException;
 import jakarta.mail.Multipart;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -29,7 +30,8 @@ public class UserController {
     private CommonUtil commonUtil;
     private PasswordEncoder passwordEncoder;
     private ProductService productService;
-    public UserController(UserDtlsService userDtlsService, CategoryService categoryService, CartService cartService, ProductOrderService productOrderService, CommonUtil commonUtil, PasswordEncoder passwordEncoder, ProductService productService) {
+    private VNPAYService vnpayService;
+    public UserController(UserDtlsService userDtlsService, CategoryService categoryService, CartService cartService, ProductOrderService productOrderService, CommonUtil commonUtil, PasswordEncoder passwordEncoder, ProductService productService, VNPAYService vnpayService) {
         this.userDtlsService = userDtlsService;
         this.categoryService = categoryService;
         this.cartService = cartService;
@@ -37,6 +39,7 @@ public class UserController {
         this.commonUtil = commonUtil;
         this.passwordEncoder = passwordEncoder;
         this.productService = productService;
+        this.vnpayService = vnpayService;
     }
     private UserDtls getLoggedUser(Principal principal) {
         String email = principal.getName();
@@ -106,8 +109,10 @@ public class UserController {
 
     @PostMapping("/save-order")
     public String saveOrders(@ModelAttribute OrderRequest orderRequest,Principal principal) throws Exception {
-        //System.out.println(orderRequest);
         UserDtls userDtls = getLoggedUser(principal);
+        if (orderRequest.getPaymentType().equals("ONLINE")){
+            return "/user/createOrder";
+        }
         productOrderService.saveProductOrder(userDtls.getUserId(),orderRequest);
 
         return "/user/success";
@@ -173,5 +178,6 @@ public class UserController {
 
         return "redirect:/user/profile";
     }
+
 
 }

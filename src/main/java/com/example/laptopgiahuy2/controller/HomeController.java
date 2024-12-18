@@ -3,10 +3,7 @@ package com.example.laptopgiahuy2.controller;
 import com.example.laptopgiahuy2.model.Category;
 import com.example.laptopgiahuy2.model.Product;
 import com.example.laptopgiahuy2.model.UserDtls;
-import com.example.laptopgiahuy2.service.CartService;
-import com.example.laptopgiahuy2.service.CategoryService;
-import com.example.laptopgiahuy2.service.ProductService;
-import com.example.laptopgiahuy2.service.UserDtlsService;
+import com.example.laptopgiahuy2.service.*;
 import com.example.laptopgiahuy2.util.CommonUtil;
 import io.micrometer.common.util.StringUtils;
 import jakarta.mail.MessagingException;
@@ -42,6 +39,7 @@ public class HomeController {
     private CommonUtil commonUtil;
     private BCryptPasswordEncoder passwordEncoder;
     private CartService cartService;
+    private VNPAYService vnpayService;
     @ModelAttribute
     public void getUserDetails(Principal principal, Model model) {
         if (principal != null) {
@@ -54,13 +52,14 @@ public class HomeController {
         List<Category>categoryList= categoryService.getCategoryByTrangThai();
         model.addAttribute("categoryList", categoryList);
     }
-    public HomeController(CategoryService categoryService, ProductService productService, UserDtlsService userDtlsService, CommonUtil commonUtil, BCryptPasswordEncoder passwordEncoder, CartService cartService) {
+    public HomeController(CategoryService categoryService, ProductService productService, UserDtlsService userDtlsService, CommonUtil commonUtil, BCryptPasswordEncoder passwordEncoder, CartService cartService, VNPAYService vnpayService) {
         this.categoryService = categoryService;
         this.productService = productService;
         this.userDtlsService = userDtlsService;
         this.commonUtil = commonUtil;
         this.passwordEncoder = passwordEncoder;
         this.cartService = cartService;
+        this.vnpayService = vnpayService;
     }
 
 
@@ -217,5 +216,36 @@ public class HomeController {
         m.addAttribute("categories", categories);
         return "product";
 
+    }
+    // Chuyển hướng người dùng đến cổng thanh toán VNPAY
+    @PostMapping("/submitOrder")
+    public String submidOrder(@RequestParam("amount") int orderTotal,
+                              @RequestParam("orderInfo") String orderInfo,
+                              HttpServletRequest request) {
+        String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
+        String vnpayUrl = vnpayService.createOrder(request, orderTotal, orderInfo, baseUrl);
+        return "redirect:" + vnpayUrl;
+    }
+
+    // Sau khi hoàn tất thanh toán, VNPAY sẽ chuyển hướng trình duyệt về URL này
+    @GetMapping("/vnpay-payment-return")
+    public String paymentCompleted(HttpServletRequest request, Model model) {
+        int paymentStatus = vnpayService.orderReturn(request);
+
+        String orderInfo = request.getParameter("vnp_OrderInfo");
+        String paymentTime = request.getParameter("vnp_PayDate");
+        String transactionId = request.getParameter("vnp_TransactionNo");
+        String totalPrice = request.getParameter("vnp_Amount");
+
+        model.addAttribute("orderId", orderInfo);
+        model.addAttribute("totalPrice", totalPrice);
+        model.addAttribute("paymentTime", paymentTime);
+        model.addAttribute("transactionId", transactionId);
+
+        if (paymentStatus == 1) {
+            return "/user/orderSuccess";
+        }else {
+            return "/user/orderFail";
+        }
     }
 }
