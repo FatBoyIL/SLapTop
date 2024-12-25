@@ -1,15 +1,13 @@
 package com.example.laptopgiahuy2.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -37,4 +35,6 @@ public class UserDtls {
     private Integer failedAttempts;
     private Date lockTime;
     private String resetToken;
+
+
 }

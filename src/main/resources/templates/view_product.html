@@ -1,90 +1,105 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-	th:replace="~{base::layout(~{::section})}">
+	  th:replace="~{base::layout(~{::section})}">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
 </head>
 <body>
-	<section>
-		<div class="container card-sh"
-			style="margin-top: 70px; margin-bottom: 100px">
-			<th:block th:if="${session.succMsg}">
-				<p class="text-success fw-bold">[[${session.succMsg}]]</p>
-				<th:block th:text="${@commnServiceImpl.removeSessionMessage()}"></th:block>
-			</th:block>
+<section>
+	<div class="container card-sh"
+		 style="margin-top: 70px; margin-bottom: 100px">
+		<th:block th:if="${session.succMsg}">
+			<p class="text-success fw-bold">[[${session.succMsg}]]</p>
+			<th:block th:text="${@commnServiceImpl.removeSessionMessage()}"></th:block>
+		</th:block>
 
-			<th:block th:if="${session.errorMsg}">
-				<p class="text-danger fw-bold">[[${session.errorMsg}]]</p>
-				<th:block th:text="${@commnServiceImpl.removeSessionMessage()}"></th:block>
-			</th:block>
+		<th:block th:if="${session.errorMsg}">
+			<p class="text-danger fw-bold">[[${session.errorMsg}]]</p>
+			<th:block th:text="${@commnServiceImpl.removeSessionMessage()}"></th:block>
+		</th:block>
 
-			<div class="col-md-12 p-5">
-				<div class="row">
+		<div class="col-md-12 p-5">
+			<div class="row">
 
-					<div class="col-md-6 text-end">
-						<img th:src="@{'/img/product_img/'+${product.hinhanh}}" width="600px"
-							height="450px">
-					</div>
+				<div class="col-md-6 text-end">
+					<img th:src="@{'/img/product_img/'+${product.hinhanh}}" width="600px"
+						 height="450px">
+				</div>
 
-					<div class="col-md-6">
-						<p class="fs-3">[[${product.tensanpham}]]</p>
-						<p>
-							<span class="fw-bold">Mô tả: </span><br>[[${product.mota}]]
-						</p>
-						<p>
-							<span class="fw-bold">Chi tiết sản phẩm:</span><br>Trạng Thái:
-							<span class="badge bg-success" th:if="${product.trangthai==true}">Còn Hàng</span><br>
-							Danh Mục: [[${product.danhMuc}]]<br>
-							7 ngày đổi trả
-							<h4>Cấu Hình</h4>
-						</p>
-						<p th:text="${product.cauhinh}"></p>
-						<p class="fs-5 fw-bold">
-							Giá : &nbsp;&nbsp;
-							[[${product.giaSale}]] VND<br><span class="fs-6 text-decoration-line-through text-secondary">[[${product.gia}]] </span>
-							<span class="fs-6 text-success">[[${product.sale}]]% </span>
-						</p>
-						<div class="row">
-							<div class="col-md-4 text-success text-center p-2">
-								<i class="fas fa-money-bill-wave fa-2x"></i>
-								<p>Thanh Toán Tiền Mặt</p>
-							</div>
-							<div class="col-md-4 text-danger text-center p-2">
-								<i class="fas fa-undo-alt fa-2x"></i>
-								<p>Trả Hàng</p>
-							</div>
-							<div class="col-md-4 text-primary text-center p-2">
-								<i class="fas fa-truck-moving fa-2x"></i>
-								<p>Free Shipping</p>
-							</div>
+				<div class="col-md-6">
+					<p class="fs-3">[[${product.tensanpham}]]</p>
+					<p>
+						<span class="fw-bold">Mô tả: </span><br>[[${product.mota}]]
+					</p>
+					<p>
+						<span class="fw-bold">Chi tiết sản phẩm:</span><br>Trạng Thái:
+						<span class="badge bg-success" th:if="${product.trangthai==true}">Còn Hàng</span><br>
+						Danh Mục: [[${product.danhMuc}]]<br>
+						7 ngày đổi trả
+					<h4>Cấu Hình</h4>
+					</p>
+					<p th:text="${product.cauhinh}"></p>
+					<p class="fs-5 fw-bold">
+						Giá : &nbsp;&nbsp;
+						[[${product.giaSale}]] VND<br><span class="fs-6 text-decoration-line-through text-secondary">[[${product.gia}]] </span>
+						<span class="fs-6 text-success">[[${product.sale}]]% </span>
+					</p>
+					<div class="row">
+						<div class="col-md-4 text-success text-center p-2">
+							<i class="fas fa-money-bill-wave fa-2x"></i>
+							<p>Thanh Toán Tiền Mặt</p>
 						</div>
-
-						<th:block th:if="${product.soluong>0}">
-							<th:block th:if="${userDtls==null}">
-								<a href="/signing" class="btn btn-danger col-md-12">Add To
-									Cart</a>
-							</th:block>
-
-							<th:block th:unless="${userDtls==null}">
-								<a
-										th:href="@{'/user/addCart?pid='+${product.productId}+'&uid='+${userDtls.userId}}"
-										class="btn btn-danger col-md-12">Add To Cart</a>
-							</th:block>
-
-						</th:block>
-
-						<th:block th:unless="${product.soluong>0}">
-							<a href="#" class="btn text-white btn-warning col-md-12">Out
-								of Stock</a>
-						</th:block>
-
+						<div class="col-md-4 text-danger text-center p-2">
+							<i class="fas fa-undo-alt fa-2x"></i>
+							<p>Trả Hàng</p>
+						</div>
+						<div class="col-md-4 text-primary text-center p-2">
+							<i class="fas fa-truck-moving fa-2x"></i>
+							<p>Free Shipping</p>
+						</div>
 					</div>
+
+					<th:block th:if="${product.soluong>0}">
+						<th:block th:if="${userDtls==null}">
+							<a href="/signing" class="btn btn-danger col-md-12">Thêm Vào Giỏ Hàng</a>
+						</th:block>
+
+						<th:block th:unless="${userDtls==null}">
+							<a
+									th:href="@{'/user/addCart?pid='+${product.productId}+'&uid='+${userDtls.userId}}"
+									class="btn btn-danger col-md-12">Thêm Vào Giỏ Hàng</a>
+						</th:block>
+
+					</th:block>
+
 				</div>
 			</div>
 		</div>
+	</div>
+	<div class="comments-list mt-4">
+		<h6 class="">Bình luận trước</h6>
+		<th:block th:each="cmt : ${product.comment}">
+			<div class="comment-item p-2 mb-3 border-bottom">
+				<p class="mb-1"><span>Tên: [[${cmt.guestName}]]</span> <br>
+					<span class="text-muted">Ngày Bình Luận: [[${#temporals.format(cmt.createdOn, 'dd-MM-yyyy')}]]</span></p>
+				<p >Nội dung: [[${cmt.guestCmt}]]</p>
+			</div>
+		</th:block>
+	</div>
+	<div class="comment-section mt-5">
+		<h5>Để lại bình luận của bạn</h5>
+		<form th:action="@{'/addComment?pid='+${product.productId}}" method="post" class="p-3 border rounded">
+			<div class="mb-3">
+				<label for="name" class="form-label">Tên của bạn</label>
+				<input type="text" id="name" name="guestName" class="form-control" placeholder="Nhập tên của bạn" required>
+				<label class="form-label">Bình luận</label>
+				<textarea name="guestCmt" class="form-control" rows="4" placeholder="Viết bình luận của bạn" required></textarea>
+			</div>
 
-
-	</section>
+			<button type="submit" class="btn btn-primary">Gửi bình luận</button>
+		</form>
+	</div>
+</section>
 </body>
 </html>

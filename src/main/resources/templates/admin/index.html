@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       th:replace="~{base::layout(~{::section})}">
 <head>
-    <meta charset="ISO-8859-1">
+    <meta charset="UTF-8">
     <title>Insert title here</title>
 </head>
 <body>
@@ -15,7 +15,7 @@
                     <div class="card card-sh">
                         <div class="card-body text-center text-primary">
                             <i class="fa-solid fa-square-plus fa-3x"></i>
-                            <h4>Add Product</h4>
+                            <h4>Thêm Sản Phẩm</h4>
                         </div>
                     </div>
                 </a>
@@ -27,7 +27,7 @@
                     <div class="card card-sh">
                         <div class="card-body text-center text-warning">
                             <i class="fa-solid fa-list fa-3x"></i>
-                            <h4>Add Category</h4>
+                            <h4>Thêm Danh Mục</h4>
                         </div>
                     </div>
                 </a>
@@ -39,7 +39,7 @@
                     <div class="card card-sh">
                         <div class="card-body text-center text-success">
                             <i class="fa-solid fa-table-list fa-3x"></i>
-                            <h4>View Product</h4>
+                            <h4>Xem Sản Phẩm</h4>
                         </div>
                     </div>
                 </a>
@@ -51,7 +51,7 @@
                     <div class="card card-sh">
                         <div class="card-body text-center text-warning">
                             <i class="fa-solid fa-box-open fa-3x"></i>
-                            <h4>Orders</h4>
+                            <h4>Đơn Đặt Hàng</h4>
                         </div>
                     </div>
                 </a>
@@ -63,11 +63,33 @@
                     <div class="card card-sh">
                         <div class="card-body text-center text-primary">
                             <i class="fa-solid fa-circle-user fa-3x"></i>
-                            <h4>Users</h4>
+                            <h4>Người Dùng</h4>
                         </div>
                     </div>
                 </a>
             </div>
+            <div class="col-md-4 mt-4">
+                <a href="/admin/warehouse" class="text-decoration-none">
+                    <div class="card card-sh">
+                        <div class="card-body text-center text-primary">
+                            <i class="fa-solid fa-circle-user fa-3x"></i>
+                            <h4>Nhập Kho</h4>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-4 mt-4">
+                <a href="/admin/comment" class="text-decoration-none">
+                    <div class="card card-sh">
+                        <div class="card-body text-center text-primary">
+                            <i class="fa-solid fa-circle-user fa-3x"></i>
+                            <h4>Bình Luận</h4>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+
 
 
         </div>

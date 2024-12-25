@@ -1,10 +1,7 @@
 package com.example.laptopgiahuy2.controller;
 
 import com.example.laptopgiahuy2.model.*;
-import com.example.laptopgiahuy2.service.CategoryService;
-import com.example.laptopgiahuy2.service.ProductOrderService;
-import com.example.laptopgiahuy2.service.ProductService;
-import com.example.laptopgiahuy2.service.UserDtlsService;
+import com.example.laptopgiahuy2.service.*;
 import com.example.laptopgiahuy2.util.OrderStatus;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.core.io.ClassPathResource;
@@ -31,11 +28,15 @@ public class AdminController {
     private ProductService productService;
     private UserDtlsService userDtlsService;
     private ProductOrderService productOrderService;
-    public AdminController(CategoryService categoryService, ProductService productService, UserDtlsService userDtlsService, ProductOrderService productOrderService) {
+    private GoodsService goodsService;
+    private CommentService commentService;
+    public AdminController(CategoryService categoryService, ProductService productService, UserDtlsService userDtlsService, ProductOrderService productOrderService, GoodsService goodsService, CommentService commentService) {
         this.categoryService = categoryService;
         this.productService = productService;
         this.userDtlsService = userDtlsService;
         this.productOrderService = productOrderService;
+        this.goodsService = goodsService;
+        this.commentService = commentService;
     }
     @ModelAttribute
     public void getUserDetails(Principal principal, Model model) {
@@ -313,6 +314,31 @@ public class AdminController {
         }
 
         return "admin/orders";
+    }
+    @GetMapping("/warehouse")
+    public String warehouse( Model model) {
+        List<Category> categories = categoryService.getAllCategories();
+        List<Product> products = productService.getAllProducts();
+        model.addAttribute("category", categories);
+        model.addAttribute("products", products);
+        return "admin/warehouse";
+    }
+    @PostMapping("/saveGoods")
+    public String saveGoods(@ModelAttribute Goods goods) {
+        goodsService.saveGoods(goods);
+        return "redirect:/admin/warehouse";
+    }
+    @GetMapping("/comment")
+    public String comment(Model model) {
+
+        List<Comment> comment = commentService.getComments();
+        model.addAttribute("comments", comment);
+        return "admin/comment";
+    }
+    @GetMapping("/updateComment")
+    public String updateCommentActive(@RequestParam Boolean active,@RequestParam Integer id) {
+        commentService.updateCommentActicve(id, active);
+        return "redirect:/admin/comment";
     }
 
 }

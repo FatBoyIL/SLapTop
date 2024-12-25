@@ -1,5 +1,6 @@
 package com.example.laptopgiahuy2.service;
 
+
 import com.example.laptopgiahuy2.config.VNPAYConfig;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ public class VNPAYService {
         String vnp_IpAddr = VNPAYConfig.getIpAddress(request);
         String vnp_TmnCode = VNPAYConfig.vnp_TmnCode;
         String orderType = "order-type";
-        String bankCode = request.getParameter("bankCode");
+
         Map<String, String> vnp_Params = new HashMap<>();
         vnp_Params.put("vnp_Version", vnp_Version);
         vnp_Params.put("vnp_Command", vnp_Command);
@@ -36,7 +37,7 @@ public class VNPAYService {
         String locate = "vn";
         vnp_Params.put("vnp_Locale", locate);
 
-        urlReturn += VNPAYConfig.vnp_ReturnUrl;
+        urlReturn += VNPAYConfig.vnp_Returnurl;
         vnp_Params.put("vnp_ReturnUrl", urlReturn);
         vnp_Params.put("vnp_IpAddr", vnp_IpAddr);
 
@@ -48,9 +49,7 @@ public class VNPAYService {
         cld.add(Calendar.MINUTE, 15);
         String vnp_ExpireDate = formatter.format(cld.getTime());
         vnp_Params.put("vnp_ExpireDate", vnp_ExpireDate);
-        if (bankCode != null && !bankCode.isEmpty()) {
-            vnp_Params.put("vnp_BankCode", bankCode);
-        }
+
         List fieldNames = new ArrayList(vnp_Params.keySet());
         Collections.sort(fieldNames);
         StringBuilder hashData = new StringBuilder();

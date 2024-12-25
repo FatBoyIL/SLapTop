@@ -1,6 +1,7 @@
 package com.example.laptopgiahuy2.controller;
 
 import com.example.laptopgiahuy2.model.Category;
+import com.example.laptopgiahuy2.model.Comment;
 import com.example.laptopgiahuy2.model.Product;
 import com.example.laptopgiahuy2.model.UserDtls;
 import com.example.laptopgiahuy2.service.*;
@@ -40,6 +41,7 @@ public class HomeController {
     private BCryptPasswordEncoder passwordEncoder;
     private CartService cartService;
     private VNPAYService vnpayService;
+    private CommentService commentService;
     @ModelAttribute
     public void getUserDetails(Principal principal, Model model) {
         if (principal != null) {
@@ -52,7 +54,7 @@ public class HomeController {
         List<Category>categoryList= categoryService.getCategoryByTrangThai();
         model.addAttribute("categoryList", categoryList);
     }
-    public HomeController(CategoryService categoryService, ProductService productService, UserDtlsService userDtlsService, CommonUtil commonUtil, BCryptPasswordEncoder passwordEncoder, CartService cartService, VNPAYService vnpayService) {
+    public HomeController(CategoryService categoryService, ProductService productService, UserDtlsService userDtlsService, CommonUtil commonUtil, BCryptPasswordEncoder passwordEncoder, CartService cartService, VNPAYService vnpayService, CommentService commentService) {
         this.categoryService = categoryService;
         this.productService = productService;
         this.userDtlsService = userDtlsService;
@@ -60,6 +62,7 @@ public class HomeController {
         this.passwordEncoder = passwordEncoder;
         this.cartService = cartService;
         this.vnpayService = vnpayService;
+        this.commentService = commentService;
     }
 
 
@@ -86,7 +89,6 @@ public class HomeController {
         List<Product> products = page.getContent();
         m.addAttribute("products", products);
         m.addAttribute("productsSize", products.size());
-
         m.addAttribute("pageNo", page.getNumber());
         m.addAttribute("pageSize", pageSize);
         m.addAttribute("totalElements", page.getTotalElements());
@@ -130,10 +132,12 @@ public class HomeController {
     public String product(@PathVariable int id, Model m) {
         Product product= productService.getProductById(id);
         m.addAttribute("product", product);
+        Comment comment = new Comment();
+        m.addAttribute("comments", comment);
         return "view_product";
     }
     @PostMapping("/saveUser")
-    public String saveUser(@ModelAttribute UserDtls userDtls, @RequestParam("img") MultipartFile file, HttpSession session) throws IOException {
+        public String saveUser(@ModelAttribute UserDtls userDtls, @RequestParam("img") MultipartFile file, HttpSession session) throws IOException {
         String imageName = file.isEmpty() ? "default.jpg" : file.getOriginalFilename();
         userDtls.setProfileImage(imageName);
         UserDtls saveUser=userDtlsService.saveUserDtls(userDtls);
@@ -150,7 +154,7 @@ public class HomeController {
         } else {
             session.setAttribute("errorMsg", "Đăng ký thất bại hãy xem lại");
         }
-        return "redirect:/register";
+        return "/login";
     }
     @GetMapping("/forgot-password")
     public String forgotPassword() {
@@ -243,9 +247,15 @@ public class HomeController {
         model.addAttribute("transactionId", transactionId);
 
         if (paymentStatus == 1) {
-            return "/user/orderSuccess";
+            return "redirect:/user/success";
         }else {
             return "/user/orderFail";
         }
+    }
+    @PostMapping("/addComment")
+    public String addComment(@RequestParam Integer pid,@ModelAttribute Comment comment)
+    {
+        commentService.saveComment(comment,pid);
+        return "redirect:/product/"+pid;
     }
 }

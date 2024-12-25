@@ -11,7 +11,7 @@
 
 			<div class="card card-sh">
 				<div class="card-header text-center">
-					<p class="fs-4">Cart Page</p>
+					<p class="fs-4">Giỏ Hàng</p>
 					<th:block th:if="${session.succMsg}">
 						<p class="text-success fw-bold">[[${session.succMsg}]]</p>
 						<th:block th:text="${@commnServiceImpl.removeSessionMessage()}"></th:block>
@@ -27,11 +27,11 @@
 						<thead>
 							<tr>
 								<th scope="col">Sl No</th>
-								<th scope="col">Image</th>
-								<th scope="col">Product Name</th>
-								<th scope="col">Price</th>
-								<th scope="col" class="text-center">Quantity</th>
-								<th scope="col">Total Price</th>
+								<th scope="col">Hình Ảnh</th>
+								<th scope="col">Tên Sản Phẩm</th>
+								<th scope="col">Giá</th>
+								<th scope="col" class="text-center">Số Lượng</th>
+								<th scope="col">Tổng Tiền</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -53,14 +53,14 @@
 							</tr>
 							<tr>
 								<td colspan="4"></td>
-								<td class="fw-bold">Total Price</td>
-								<td class="fw-bold">&#8377; [[${totalOrderPrice}]]</td>
+								<td class="fw-bold">Tổng Tiền</td>
+								<td class="fw-bold">[[${totalOrderPrice}]] VND</td>
 							</tr>
 
 						</tbody>
 					</table>
 					<div class="text-center">
-						<a href="/user/orders" class="btn btn-warning"> Proceed Payment</a>
+						<a href="/user/orders" class="btn btn-warning"> Đặt Hàng</a>
 					</div>
 				</div>
 			</div>

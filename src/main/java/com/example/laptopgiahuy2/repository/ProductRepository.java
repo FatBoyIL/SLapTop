@@ -8,8 +8,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface ProductRepository extends JpaRepository<Product, Integer> {
-     List<Product> findByTrangthaiTrue();
-
+    Product findByTensanpham(String name);
+    List<Product> findByTrangthaiTrue();
     List<Product> findByDanhMuc(String danhMuc);
     List<Product>findByTensanphamIgnoreCaseOrDanhMucContainingIgnoreCase(String ch, String ch2);
     Page<Product> findByTrangthaiTrue(Pageable pageable);

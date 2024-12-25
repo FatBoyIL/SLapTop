@@ -16,7 +16,7 @@
 
 
 						<div class="mb-3 row">
-							<p class="text-center fs-4">Billing Address</p>
+							<p class="text-center fs-4">Thông tin khách hàng</p>
 							<hr>
 							<div class="col p-1">
 								<label>Tên Người Nhận</label> <input type="text" name="guestName" required
@@ -37,8 +37,9 @@
 
 						<div class="mb-3 row">
 							<div class="col p-1">
-								<label>Địa Chỉ</label> <input type="text" name="address" required
-									class="form-control col">
+								<label>Địa Chỉ</label> 
+								<textarea rows="3" cols="" class="form-control"
+										  name="address"></textarea>
 							</div>
 						</div>
 						<div class="mb-3 row">
@@ -60,7 +61,7 @@
 										<tr>
 											<td>Tổng Tiền</td>
 											<td>:</td>
-											<td>[[${orderPrice}]] VND</td>
+											<td id="orderPrice">[[${orderPrice}]] VND</td>
 										</tr>
 										<tr>
 											<td>Tiền Giao Hàng</td>
@@ -109,5 +110,11 @@
 		</div>
 
 	</section>
+	<script>
+		const VND = new Intl.NumberFormat('vi-VN', {
+			style: 'currency',
+			currency: 'VND',
+		});
+	</script>
 </body>
 </html>

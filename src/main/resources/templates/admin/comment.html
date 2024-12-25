@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{base::layout(~{::section})}">
+<head>
+  <meta charset="UTF-8">
+  <title>Insert title here</title>
+</head>
+<body>
+<section>
+  <div class="container-fluid mt-4 p-3">
+    <div class="row">
+      <p class="text-center fs-3 mt-2">Bình luận</p>
+
+      <hr>
+      <a href="/admin/" class="text-decoration-none"><i
+              class="fa-solid fa-arrow-left"></i> Back</a>
+
+
+      <!-- <div class="card card-sh">-->
+      <div class="p-3">
+        <table class="table table-bordered">
+          <thead class="table-light ">
+          <tr>
+            <th scope="col">Sl No</th>
+            <th scope="col">Tên Khách</th>
+            <th scope="col">Nội Dung</th>
+            <th scope="col">Mã Sản Phẩm</th>
+            <th scope="col">Trạng Thái</th>
+            <th scope="col">Action</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="p,c:${comments}">
+            <th scope="row">[[${c.count}]]</th>
+
+            <td th:text="${p.guestName}">
+            </td>
+            </td>
+            <td th:text="${p.guestCmt}">
+            </td>
+            <td th:text="${p.product}">
+            </td>
+            <td th:text="${p.active == true} ? 'DUYỆT' : 'KHÔNG DUYỆT'">
+            </td>
+
+
+            <td><a th:href="@{'/admin/updateComment?active=true&id='+${p.id}}"
+                   class="btn btn-sm btn-primary"><i class="fa-solid fa-unlock"></i> Unclock</a> <a
+                    th:href="@{'/admin/updateComment?active=false&id='+${p.id}}"
+                    class="btn btn-sm btn-danger"><i class="fa-solid fa-lock"></i>
+              Lock</a></td>
+          </tr>
+
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+  </div>
+  <!-- 	</div> -->
+</section>
+</body>
+</html>
