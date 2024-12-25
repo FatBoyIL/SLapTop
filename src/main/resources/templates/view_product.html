@@ -80,11 +80,12 @@
 	<div class="comments-list mt-4">
 		<h6 class="">Bình luận trước</h6>
 		<th:block th:each="cmt : ${product.comment}">
-			<div class="comment-item p-2 mb-3 border-bottom">
+			<div  th:if="${cmt.active == true}" class="comment-item p-2 mb-3 border-bottom">
 				<p class="mb-1"><span>Tên: [[${cmt.guestName}]]</span> <br>
 					<span class="text-muted">Ngày Bình Luận: [[${#temporals.format(cmt.createdOn, 'dd-MM-yyyy')}]]</span></p>
 				<p >Nội dung: [[${cmt.guestCmt}]]</p>
 			</div>
+
 		</th:block>
 	</div>
 	<div class="comment-section mt-5">

@@ -132,7 +132,7 @@ public class HomeController {
     public String product(@PathVariable int id, Model m) {
         Product product= productService.getProductById(id);
         m.addAttribute("product", product);
-        Comment comment = new Comment();
+        List<Comment> comment = commentService.getActicveComments();
         m.addAttribute("comments", comment);
         return "view_product";
     }
