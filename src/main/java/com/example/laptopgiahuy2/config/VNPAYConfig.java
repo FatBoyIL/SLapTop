@@ -70,7 +70,6 @@ public class VNPAYConfig {
         }
         return ipAdress;
     }
-
     public static String getRandomNumber(int len) {
         Random rnd = new Random();
         String chars = "0123456789";

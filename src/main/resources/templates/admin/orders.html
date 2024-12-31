@@ -47,6 +47,7 @@
 								<th scope="col">Ngày</th>
 								<th scope="col">Chi Tiết Sản Phẩm</th>
 								<th scope="col">Giá</th>
+								<th scope="col">Kiểu Thanh Toán</th>
 								<th scope="col">Trạng Thái</th>
 								<th scope="col">Action</th>
 							</tr>
@@ -117,12 +118,13 @@
 										[[${order.orderAddress.address}]] <br> Ghi Chú :
 										[[${order.orderAddress.ghichu}]]
 									</td>
-									<td>[[${order.orderDate}]]</td>
+									<td>[[${#temporals.format(order.orderDate, 'dd-MM-yyyy')}]]</td>
 									<td>[[${order.product.tensanpham}]]</td>
 									<td>Quantity : [[${order.quantity}]] <br>Price :
 										[[${order.price}]] <br>Total Price
 										:[[${order.quantity * order.price}]]
 									</td>
+									<td >[[${order.paymentType}]]</td>
 									<td>[[${order.status}]]</td>
 									<td>
 										<form action="/admin/update-order-status" method="post">

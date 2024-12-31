@@ -124,7 +124,7 @@ public class UserController {
                               HttpServletRequest request) {
         String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
         String vnpayUrl = vnpayService.createOrder(request, orderTotal, orderInfo, baseUrl);
-        return "redirect:" + vnpayUrl;
+        return "/user/success";
     }
     @GetMapping("/vnpay-payment-return")
     public String paymentCompleted(HttpServletRequest request, Model model) {

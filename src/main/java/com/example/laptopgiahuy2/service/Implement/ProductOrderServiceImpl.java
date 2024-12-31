@@ -12,6 +12,7 @@ import com.example.laptopgiahuy2.util.OrderStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -94,7 +95,7 @@ public class ProductOrderServiceImpl implements ProductOrderService {
 
     @Override
     public Page<ProductOrder> getAllOrdersPagination(Integer pageNo, Integer pageSize) {
-        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(Sort.Direction.DESC, "id"));
         return productOrderRepository.findAll(pageable);
     }
 }
