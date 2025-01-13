@@ -97,6 +97,8 @@ public class HomeController {
         m.addAttribute("isLast", page.isLast());
         return "product";
     }
+
+
     @GetMapping("/products")
     public String products(Model m, @RequestParam(value = "category", defaultValue = "") String category,
                            @RequestParam(name = "pageNo", defaultValue = "0") Integer pageNo,
@@ -221,7 +223,6 @@ public class HomeController {
         return "product";
 
     }
-    // Chuyển hướng người dùng đến cổng thanh toán VNPAY
     @PostMapping("/submitOrder")
     public String submidOrder(@RequestParam("amount") int orderTotal,
                               @RequestParam("orderInfo") String orderInfo,
@@ -230,8 +231,6 @@ public class HomeController {
         String vnpayUrl = vnpayService.createOrder(request, orderTotal, orderInfo, baseUrl);
         return "redirect:" + vnpayUrl;
     }
-
-    // Sau khi hoàn tất thanh toán, VNPAY sẽ chuyển hướng trình duyệt về URL này
     @GetMapping("/vnpay-payment-return")
     public String paymentCompleted(HttpServletRequest request, Model model) {
         int paymentStatus = vnpayService.orderReturn(request);
@@ -246,11 +245,7 @@ public class HomeController {
         model.addAttribute("paymentTime", paymentTime);
         model.addAttribute("transactionId", transactionId);
 
-        if (paymentStatus == 1) {
-            return "redirect:/user/success";
-        }else {
-            return "/user/orderFail";
-        }
+        return paymentStatus == 1 ? "user/orderSuccess" : "user/orderFail";
     }
     @PostMapping("/addComment")
     public String addComment(@RequestParam Integer pid,@ModelAttribute Comment comment)

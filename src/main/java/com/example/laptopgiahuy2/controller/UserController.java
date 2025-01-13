@@ -118,30 +118,7 @@ public class UserController {
 
         return "/user/success";
     }
-    @PostMapping("/submitOrder")
-    public String submidOrder(@RequestParam("amount") int orderTotal,
-                              @RequestParam("orderInfo") String orderInfo,
-                              HttpServletRequest request) {
-        String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
-        String vnpayUrl = vnpayService.createOrder(request, orderTotal, orderInfo, baseUrl);
-        return "/user/success";
-    }
-    @GetMapping("/vnpay-payment-return")
-    public String paymentCompleted(HttpServletRequest request, Model model) {
-        int paymentStatus = vnpayService.orderReturn(request);
 
-        String orderInfo = request.getParameter("vnp_OrderInfo");
-        String paymentTime = request.getParameter("vnp_PayDate");
-        String transactionId = request.getParameter("vnp_TransactionNo");
-        String totalPrice = request.getParameter("vnp_Amount");
-
-        model.addAttribute("orderId", orderInfo);
-        model.addAttribute("totalPrice", totalPrice);
-        model.addAttribute("paymentTime", paymentTime);
-        model.addAttribute("transactionId", transactionId);
-
-        return paymentStatus == 1 ? "user/orderSuccess" : "user/orderFail";
-    }
     @GetMapping("/user-orders")
         public String myOrder(Model model,Principal principal) {
         UserDtls userDtls = getLoggedUser(principal);

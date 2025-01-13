@@ -12,7 +12,7 @@
 				<div class="col-md-3 offset-md-5">
 					<div class="card card-sh">
 						<div class="card-header text-center ">
-							<p class="fs-4">Edit Category</p>
+							<p class="fs-4">S?a danh m?c</p>
 							<th:block th:if="${session.succMsg}">
 								<p class="text-success fw-bold">[[${session.succMsg}]]</p>
 								<th:block th:text="${@commnServiceImpl.removeSessionMessage()}"></th:block>
@@ -29,32 +29,32 @@
 								enctype="multipart/form-data">
 								<input type="hidden" name="danhMucId" th:value="${category.danhMucId}">
 								<div class="mb-3">
-									<label>Enter Category</label> <input type="text" name="tendanhmuc"
+									<label>Nh?p danh m?c</label> <input type="text" name="tendanhmuc"
 										th:value="${category.tendanhmuc}" class="form-control">
 								</div>
 
 								<div class="mb-3">
-									<label>Status</label>
+									<label>Tr?ng Thái</label>
 
 									<div class="form-check">
 										<input class="form-check-input" type="radio"
 											th:checked="${category.trangThai==true}" value="true"
 											name="trangThai" id="flexRadioDefault1"> <label
 											class="form-check-label" for="flexRadioDefault1">
-											HOAT DONG </label>
+											HO?T ??NG </label>
 									</div>
 									<div class="form-check">
 										<input class="form-check-input" type="radio" name="trangThai"
 											th:checked="${category.trangThai==false}" value="false"
 											id="flexRadioDefault2"> <label
 											class="form-check-label" for="flexRadioDefault2">
-											KHONG HOAT DONG </label>
+										KHÔNG HO?T ??NG </label>
 									</div>
 
 								</div>
 
 								<div class="mb-3">
-									<label>Upload Image</label> <input type="file" name="file"
+									<label>Upload ?nh</label> <input type="file" name="file"
 										class="form-control">
 								</div>
 								<img th:src="@{'/img/category_img/'+${category.imageName}}"
