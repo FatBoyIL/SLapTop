@@ -49,7 +49,7 @@ public class CommonUtil {
 				+ "<p>Tên sản phẩm : [[productName]]</p>"
 				+ "<p>Danh Mục : [[category]]</p>"
 				+ "<p>Số lượng : [[quantity]]</p>"
-				+ "<p>Giá tiền(1 sản phẩm) : [[price]]</p>"
+				+ "<p>Giá tiền (1 sản phẩm) : [[price]]</p>"
 				+ "<p>Tổng Tiền : [[totalPrice]]</p>"
 				+ "<p>Kiểu thanh toán: [[paymentType]]</p>";
 		MimeMessage message = mailSender.createMimeMessage();

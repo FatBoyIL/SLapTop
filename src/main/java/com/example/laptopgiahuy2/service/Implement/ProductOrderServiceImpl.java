@@ -1,11 +1,9 @@
 package com.example.laptopgiahuy2.service.Implement;
 
-import com.example.laptopgiahuy2.model.Cart;
-import com.example.laptopgiahuy2.model.OrderAddress;
-import com.example.laptopgiahuy2.model.OrderRequest;
-import com.example.laptopgiahuy2.model.ProductOrder;
+import com.example.laptopgiahuy2.model.*;
 import com.example.laptopgiahuy2.repository.CartRepository;
 import com.example.laptopgiahuy2.repository.ProductOrderRepository;
+import com.example.laptopgiahuy2.repository.ProductRepository;
 import com.example.laptopgiahuy2.service.ProductOrderService;
 import com.example.laptopgiahuy2.util.CommonUtil;
 import com.example.laptopgiahuy2.util.OrderStatus;
@@ -25,11 +23,12 @@ public class ProductOrderServiceImpl implements ProductOrderService {
     private ProductOrderRepository productOrderRepository;
     private CartRepository cartRepository;
     private CommonUtil commonUtil;
-
-    public ProductOrderServiceImpl(ProductOrderRepository productOrderRepository, CartRepository cartRepository, CommonUtil commonUtil) {
+    private ProductRepository productRepository;
+    public ProductOrderServiceImpl(ProductOrderRepository productOrderRepository, CartRepository cartRepository, CommonUtil commonUtil, ProductRepository productRepository) {
         this.productOrderRepository = productOrderRepository;
         this.cartRepository = cartRepository;
         this.commonUtil = commonUtil;
+        this.productRepository = productRepository;
     }
 
     @Override
@@ -58,7 +57,10 @@ public class ProductOrderServiceImpl implements ProductOrderService {
             productOrder.setOrderAddress(orderAddress);
 
             ProductOrder productOrder1 = productOrderRepository.save(productOrder);
-            commonUtil.sendMailProductOrder(productOrder1,"success");
+            Product product =productRepository.findByTensanpham(cart.getProduct().getTensanpham());
+            product.setSoluong(product.getSoluong()-productOrder.getQuantity());
+            productRepository.save(product);
+            commonUtil.sendMailProductOrder(productOrder1,"Thành Công");
         }
 
     }
