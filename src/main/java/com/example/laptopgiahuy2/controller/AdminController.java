@@ -319,8 +319,10 @@ public class AdminController {
     public String warehouse( Model model) {
         List<Category> categories = categoryService.getAllCategories();
         List<Product> products = productService.getAllProducts();
+        List<Goods> goods = goodsService.getAllGoods();
         model.addAttribute("category", categories);
         model.addAttribute("products", products);
+        model.addAttribute("goods", goods);
         return "admin/warehouse";
     }
     @PostMapping("/saveGoods")

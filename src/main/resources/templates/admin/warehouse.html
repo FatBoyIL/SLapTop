@@ -57,15 +57,26 @@
             <thead class="table-light">
             <tr>
               <th scope="col">SẢN PHẨM</th>
+              <th scope="col">DANH MỤC</th>
               <th scope="col">SỐ LƯỢNG</th>
               <th scope="col">ĐƠN GIÁ</th>
               <th scope="col">TẠM TÍNH</th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-              <td colspan="4">Chưa có sản phẩm</td>
-            </tr>
+            <tr th:each="g,c:${goods}">
+              <th scope="row">[[${c.count}]]</th>
+
+              <td th:text="${g.productName}">
+              </td>
+              <td th:text="${g.categoryName}">
+              </td>
+              <td th:text="${g.soluong}">
+              </td>
+
+              <td th:text="${g.tongtien}">
+              </td>
+
             </tbody>
           </table>
           <div class="d-flex justify-content-end">

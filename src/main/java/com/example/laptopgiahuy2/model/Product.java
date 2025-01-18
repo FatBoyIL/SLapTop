@@ -35,4 +35,8 @@ public class Product {
     private Boolean trangthai;
     @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
     private Set<Comment> comment = new HashSet<>();
+    @OneToMany(mappedBy = "product",cascade = CascadeType.REMOVE)
+    private Set<ProductOrder> productOrders = new HashSet<>();
+    @OneToMany(mappedBy = "product",cascade = CascadeType.REMOVE)
+    private Set<Cart> carts = new HashSet<>();
 }

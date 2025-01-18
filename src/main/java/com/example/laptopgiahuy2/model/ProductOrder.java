@@ -26,7 +26,6 @@ public class ProductOrder {
     private String paymentType;
     @ManyToOne
     private Product product;
-
     @ManyToOne
     private UserDtls userDtls;
     @OneToOne(cascade = CascadeType.ALL)

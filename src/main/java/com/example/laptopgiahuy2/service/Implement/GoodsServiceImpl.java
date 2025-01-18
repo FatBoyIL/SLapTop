@@ -7,6 +7,9 @@ import com.example.laptopgiahuy2.repository.ProductRepository;
 import com.example.laptopgiahuy2.service.GoodsService;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
+import java.util.List;
+
 @Service
 public class GoodsServiceImpl implements GoodsService {
     private GoodsRepository goodsRepository;
@@ -20,9 +23,16 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public Goods saveGoods(Goods goods) {
         Product product = productRepository.findByTensanpham(goods.getProductName());
-        product.setSoluong(product.getSoluong() + goods.getSoluong());
+        int soLuong=product.getSoluong() + goods.getSoluong();
+        product.setSoluong(soLuong);
         product.setDanhMuc(goods.getCategoryName());
+        goods.setTongtien(BigInteger.valueOf(goods.getSoluong()*product.getGia()));
         return goodsRepository.save(goods);
 
+    }
+
+    @Override
+    public List<Goods> getAllGoods() {
+        return goodsRepository.findAll();
     }
 }

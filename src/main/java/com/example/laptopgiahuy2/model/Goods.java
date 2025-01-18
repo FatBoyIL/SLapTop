@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.math.BigInteger;
 import java.time.LocalDateTime;
 
 @Entity
@@ -19,7 +20,7 @@ public class Goods {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer goodsId;
-    private Integer tongtien;
+    private BigInteger tongtien;
     private String productName;
     private String categoryName;
     private Integer soluong;

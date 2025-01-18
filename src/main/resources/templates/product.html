@@ -98,11 +98,14 @@ background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100
                                             [[${p.cauhinh}]]
                                         </div>
                                         <div>
-                                           Bao Hanh: [[${p.baohanh}]] nam
+                                            Bao Hanh: [[${p.baohanh}]] năm
+                                        </div>
+                                        <div>
+                                            So Luong: [[${p.soluong}]]
                                         </div>
                                         <div class="row text-center">
                                                 <div class="">[[${p.giaSale}]] VND</div>
-                                                <div class="text-decoration-line-through">[[${p.gia}]]VND</div>
+                                                <div class="text-decoration-line-through">[[${p.gia}]] VND</div>
 
                                             <a class="btn btn-primary col-md-6 offset-md-3" th:href="@{'/product/'+${p.productId}}">Chi Tiet</a>
                                         </div>
